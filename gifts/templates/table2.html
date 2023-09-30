@@ -1,0 +1,308 @@
+{% extends 'base.html' %} {% block content %}
+
+<div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+
+      <!-- Button Toggler for Mobile View -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item mr-2">
+            <a class=" btn btn-outline-info" href="{% url 'upload_recharge_cards' %}">
+              Upload Recharge Cards
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-outline-info" href="{% url 'uploadimei' %}">
+              Upload IMEI Numbers
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row mt-3">
+      <div class="col-12">
+        <div class="btn-group">
+          <a href="{% url 'download_customers_with_gifts' %}?start_date=" id="downloadWithGiftsLink"
+            class="btn btn-secondary mr-2">
+            Download Customers with Gifts
+          </a>
+          <a href="{% url 'download_customers_without_gifts' %}?start_date=" id="downloadWithoutGiftsLink"
+            class="btn btn-secondary mr-2">
+            Download Customers without Gifts
+          </a>
+          <button id="csvDownloadButton" class="btn btn-danger">
+            <i class="bi bi-file-earmark-spreadsheet"></i> Download All Data
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-12">
+        <form method="get" action="" class="form-inline">
+          <div class="form-group mr-2">
+            <label for="start_date" class="mr-2">Start Date:</label>
+            <input type="date" name="start_date" id="start_date" class="form-control" />
+          </div>
+          <div class="form-group mr-2">
+            <label for="end_date" class="mr-2">End Date:</label>
+            <input type="date" name="end_date" id="end_date" class="form-control" />
+          </div>
+          <button type="submit" class="btn btn-primary">Filter</button>
+          <button id="showAllCustomersButton" class="btn btn-secondary ml-2">
+            Show All Customers
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table id="ourtable2" class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>Customer Name</th>
+                <th>Shop Name</th>
+                <th>Sold Area</th>
+                <th>Phone Number</th>
+                <th>Phone Model</th>
+                <th>Sale Status</th>
+                <th>Prize Details</th>
+                <th>IMEI</th>
+                <th>Gift</th>
+                <th>Date of Purchase</th>
+                <th>How You Know About Campaign</th>
+                <th>Recharge Card</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <th>Customer Name</th>
+                <th>Shop Name</th>
+                <th>Sold Area</th>
+                <th>Phone Number</th>
+                <th>Phone Model</th>
+                <th>Sale Status</th>
+                <th>Prize Details</th>
+                <th>IMEI</th>
+                <th>Gift</th>
+                <th>Date of Purchase</th>
+                <th>How Know About Campaign</th>
+                <th>Recharge Card</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var data = JSON.parse("{{data|escapejs}}");
+
+  $(document).ready(function () {
+    var table = $("#ourtable2").DataTable({
+      data: data,
+      columns: [
+        { data: "customer_name" },
+        { data: "shop_name" },
+        { data: "sold_area" },
+        { data: "phone_number" },
+        { data: "phone_model" },
+        { data: "sale_status" },
+        { data: "prize_details" },
+        { data: "imei" },
+        { data: "gift__name" },
+        { data: "date_of_purchase" },
+        { data: "how_know_about_campaign" },
+        {
+          data: null,
+          render: function (data, type, row) {
+            // Check if the customer didn't receive a gift
+            if (!data.gift__name) {
+              return "Recharge Card";
+            } else {
+              return "";
+            }
+          },
+        },
+      ],
+      initComplete: function () {
+        this.api()
+          .columns()
+          .every(function () {
+            let column = this;
+
+            // Create select element
+            let select = document.createElement("select");
+            select.add(new Option(""));
+            column.footer().replaceChildren(select);
+
+            // Apply listener for user change in value
+
+            select.addEventListener("change", function () {
+              var val = DataTable.util.escapeRegex(select.value);
+
+              column.search(val ? "^" + val + "$" : "", true, false).draw();
+            });
+
+            // Add list of options
+            column
+              .data()
+              .unique()
+              .sort()
+              .each(function (d, j) {
+                select.add(new Option(d));
+              });
+          });
+      },
+    });
+
+    // Handle form submission for date range filtering
+    $("form").on("submit", function (e) {
+      e.preventDefault();
+
+      var start_date = $("#start_date").val();
+      var end_date = $("#end_date").val();
+
+      // Apply date range filtering when the form is submitted
+      // Create a custom filtering function
+      $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+        var startDate = $("#start_date").val();
+        var endDate = $("#end_date").val();
+        var purchaseDate = data[9]; // Assuming date_of_purchase is in the 10th column (index 9)
+
+        if (!startDate && !endDate) {
+          // If no date range is specified, display all rows
+          return true;
+        }
+
+        if (!startDate || !endDate) {
+          // If either the start or end date is not specified, do not filter this row
+          return true;
+        }
+
+        // Convert the dates to timestamps for comparison
+        var startTimestamp = new Date(startDate).getTime();
+        var endTimestamp = new Date(endDate).getTime();
+        var purchaseTimestamp = new Date(purchaseDate).getTime();
+
+        // Check if the purchase date is within the specified date range
+        return (
+          purchaseTimestamp >= startTimestamp &&
+          purchaseTimestamp <= endTimestamp
+        );
+      });
+
+      $(document).ready(function () {
+        var table = $("#ourtable2").DataTable({
+          data: data,
+          columns: [
+            // ... your column definitions here ...
+          ],
+          initComplete: function () {
+            // ... your initComplete code here ...
+          },
+        });
+
+        // Handle form submission for date range filtering
+        $("form").on("submit", function (e) {
+          e.preventDefault();
+
+          // Redraw the table to apply the custom filtering
+          table.draw();
+        });
+
+        // ... your other event listeners here ...
+      });
+
+      // Update the "Download Customers with Gifts" link with date range
+      $("#downloadWithGiftsLink").attr(
+        "href",
+        "{% url 'download_customers_with_gifts' %}?start_date=" +
+        start_date +
+        "&end_date=" +
+        end_date
+      );
+
+      // Update the "Download Customers without Gifts" link with date range
+      $("#downloadWithoutGiftsLink").attr(
+        "href",
+        "{% url 'download_customers_without_gifts' %}?start_date=" +
+        start_date +
+        "&end_date=" +
+        end_date
+      );
+    });
+
+    // Add event listener for "Show All Customers" button
+    $("#showAllCustomersButton").on("click", function () {
+      // Clear date range inputs
+      $("#start_date").val("");
+      $("#end_date").val("");
+
+      // Reset the table to the initial data
+      table.search("").columns().search("").draw();
+    });
+
+    // Add event listener for "Download All Data" button
+    $("#csvDownloadButton").on("click", function () {
+      // Extract DataTable data and format it as CSV
+      var csvData = "";
+
+      // Get the header row
+      var headerRow = table.columns().header().toArray();
+      var headerData = headerRow.map(function (headerCell) {
+        return headerCell.textContent;
+      });
+      csvData += headerData.join(",") + "\n";
+
+      // Get the table data based on applied filters or all data
+      var filteredData = table.rows({ search: "applied" }).data();
+      var allData = table.rows().data();
+
+      // Determine whether to use filtered data or all data
+      var dataToDownload = filteredData.count() > 0 ? filteredData : allData;
+
+      dataToDownload.each(function (row) {
+        var rowValues = Object.values(row);
+        csvData += rowValues.join(",") + "\n";
+      });
+
+      // Create a Blob containing the CSV data
+      var blob = new Blob([csvData], { type: "text/csv;charset=utf-8" });
+
+      // Create a temporary link element to trigger the download
+      var a = document.createElement("a");
+      a.href = window.URL.createObjectURL(blob);
+      a.download = "data.csv";
+      a.style.display = "none";
+      document.body.appendChild(a);
+
+      // Trigger the click event to download the CSV
+      a.click();
+
+      // Clean up
+      document.body.removeChild(a);
+    });
+  });
+</script>
+
+{% endblock %}
+
+<!-- // Clear date range filter and show all customers
+      table.column(9).search("").draw(); -->
+
+<!-- all the data from all of the iphone in the market -->
