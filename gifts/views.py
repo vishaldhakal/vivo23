@@ -446,7 +446,7 @@ def registerCustomer(request):
         if not gift_assigned:
             # Check for Recharge Card offers
             recharge_card_offers = RechargeCardOffer.objects.filter(
-                start_date__lte=today_date, end_date__gte=today_date, provider=provider)
+                start_date__lte=today_date, end_date__gte=today_date)
 
             for recharge_card_offer in recharge_card_offers:
                 if recharge_card_offer.type_of_offer == "After every certain sale":

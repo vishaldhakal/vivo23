@@ -115,8 +115,6 @@ class RechargeCardOffer(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     quantity = models.IntegerField(null=True, blank=True)
-    provider = models.CharField(max_length=400, choices=PROVIDER_CHOICES)
-    amount = models.IntegerField(choices=AMOUNT_CHOICES)
     type_of_offer = models.CharField(max_length=800, choices=TYPE_OF_OFFER_CHOICES)
     offer_condition_value = models.CharField(max_length=500, blank=True)
     sale_numbers = models.JSONField(null=True, blank=True)
