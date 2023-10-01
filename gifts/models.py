@@ -124,7 +124,7 @@ class RechargeCardOffer(models.Model):
         return self.start_date <= today <= self.end_date
     
     def __str__(self) -> str:
-        return f"Offer on {self.provider} {self.amount} [ {self.quantity} ]"
+        return f"Offer on Recharge card [ {self.quantity} ]"
 
     class Meta:
         ordering = ("start_date",)
