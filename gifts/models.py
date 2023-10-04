@@ -74,6 +74,7 @@ class Offers(models.Model):
     offer_condition_value = models.CharField(max_length=500,blank=True)
     quantity = models.IntegerField()
     sale_numbers = models.JSONField(null=True, blank=True)
+    priority = models.IntegerField(default=0)
 
     def __str__(self):
         return f"Offer on {self.gift.name}"
@@ -118,7 +119,7 @@ class RechargeCardOffer(models.Model):
         return self.start_date <= today <= self.end_date
     
     def __str__(self) -> str:
-        return f"Offer on Recharge card [ {self.quantity} ]"
+        return f"Offer on {self.provider} of {self.amount} Recharge card [ {self.quantity} ]"
 
     class Meta:
         ordering = ("start_date",)
