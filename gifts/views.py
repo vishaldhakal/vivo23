@@ -450,7 +450,7 @@ def registerCustomer(request):
         if not gift_assigned:
             # Check for Recharge Card offers
             recharge_card_offers = RechargeCardOffer.objects.filter(
-                start_date__lte=today_date, end_date__gte=today_date)
+                start_date__lte=today_date, end_date__gte=today_date,provider=provider).order_by('?')
 
             for recharge_card_offer in recharge_card_offers:
                 if recharge_card_offer.type_of_offer == "After every certain sale":
@@ -460,17 +460,16 @@ def registerCustomer(request):
                         recharge_card_offer.save()
                         if provider == "Ncell":
                             recharge_card_assigned = True
+                            amt = recharge_card_offer.amount
                             recharge = RechargeCard.objects.filter(
-                                provider=provider, is_assigned=False).order_by('?').first()
+                                provider=provider, is_assigned=False,amount=amt).order_by('?').first()
                             recharge.is_assigned = True
                             recharge_cardd = recharge
                             customer.recharge_card = recharge
                             customer.save()
                         else:
                             ntc_recharge_card_assigned = True
-                            arr = [50,100]
-                            random_number = random.choice(arr)
-                            customer.amount_of_card = random_number
+                            customer.amount_of_card = recharge_card_offer.amount
                             customer.ntc_recharge_card = True
                             customer.save()
                         break
@@ -489,12 +488,11 @@ def registerCustomer(request):
                             customer.save()
                         else:
                             ntc_recharge_card_assigned = True
-                            arr = [50,100]
-                            random_number = random.choice(arr)
-                            customer.amount_of_card = random_number
+                            customer.amount_of_card = recharge_card_offer.amount
                             customer.ntc_recharge_card = True
                             customer.save()
-
+                        break
+                            
         return render(request, "output.html", {"customer": customer, "gift_assigned": gift_assigned,"recharge_card": recharge_cardd, "recharge_card_assigned": recharge_card_assigned,"ntc_recharge_card_assigned": ntc_recharge_card_assigned })
     else:
         return redirect('indexWithError')
