@@ -16,6 +16,10 @@ from json import dumps
 from datetime import date, datetime
 import random
 
+def removerec(request):
+    recs = RechargeCard.objects.all()
+    recs.delete()
+    return HttpResponse("Deleted")
 
 def index(request):
     phone_models = MobilePhone.objects.all()

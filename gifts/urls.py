@@ -1,7 +1,7 @@
 from django import views
 from django.contrib import admin
 from django.urls import path
-from .views import customer_dashboard, customerlists, download_customers_with_gifts, download_customers_without_gifts, home, index, dashboard, upload_recharge_cards,uploadIMEI, registerCustomer,deleteAllImeis,adminIndex,uploadIMEInos,indexWithError,downloadData,downloadDataToday,downloadDataYesterday,reuseIMEI
+from .views import customer_dashboard, customerlists,removerec, download_customers_with_gifts, download_customers_without_gifts, home, index, dashboard, upload_recharge_cards,uploadIMEI, registerCustomer,deleteAllImeis,adminIndex,uploadIMEInos,indexWithError,downloadData,downloadDataToday,downloadDataYesterday,reuseIMEI
 
 urlpatterns = [
     path('', index,name='index'),
@@ -10,6 +10,7 @@ urlpatterns = [
     path('customerlists/', customerlists, name='customerlists'),
     path('dashboard/', dashboard, name='dashboard'),
     path('home/', home, name='home'),
+    path('removerec/', removerec, name='removerec'),
 
     path('download_customers_with_gifts/', download_customers_with_gifts,
          name='download_customers_with_gifts'),
