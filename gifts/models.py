@@ -24,7 +24,7 @@ class RechargeCard(models.Model):
         ("Smart Cell", "Smart Cell"),
         ("Others", "Others"),
     ]
-    cardno = models.PositiveBigIntegerField(unique=True)
+    cardno = models.CharField(max_length=400)
     provider = models.CharField(max_length=400, choices=PROVIDER_CHOICES)
     amount = models.IntegerField(choices=AMOUNT_CHOICES)
     image = models.ImageField(
