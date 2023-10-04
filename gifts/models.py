@@ -68,16 +68,10 @@ class Offers(models.Model):
         ("Weekly Offer", "Weekly Offer"),
     ]
 
-    PHONE_PRICE_CHOICES = [
-        ("Below 15000", "Below 15000"),
-        ("Above 15000", "Above 15000"),
-    ]
-
     gift = models.ForeignKey(Gift, on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
     type_of_offer = models.CharField(max_length=800, choices=OFFER_CHOICES)
-    phone_price_type = models.CharField(max_length=800, choices=PHONE_PRICE_CHOICES, default="Above 15000")
     offer_condition_value = models.CharField(max_length=500,blank=True)
     quantity = models.IntegerField()
     sale_numbers = models.JSONField(null=True, blank=True)
@@ -130,13 +124,7 @@ class RechargeCardOffer(models.Model):
         ordering = ("start_date",)
 
 class MobilePhone(models.Model):
-    PHONE_PRICE_CHOICES = [
-        ("Below 15000", "Below 15000"),
-        ("Above 15000", "Above 15000"),
-    ]
     phone_model = models.CharField(max_length=400)
-    phone_image = models.ImageField()
-    phone_price = models.CharField(max_length=800, choices=PHONE_PRICE_CHOICES, default="Above 15000")
 
     def __str__(self):
         return self.phone_model
@@ -164,7 +152,10 @@ class Customer(models.Model):
     date_of_purchase = models.DateField(auto_now_add=True, auto_now=False)
     how_know_about_campaign = models.CharField(
         max_length=800, choices=CAMPAIGN_CHOICES)
-    recharge_card = models.ForeignKey(RechargeCard, on_delete=models.CASCADE,null=True)
+    recharge_card = models.ForeignKey(RechargeCard, on_delete=models.CASCADE,null=True,related_name="recharge_card")
+    ntc_recharge_card = models.BooleanField(default=False)
+    amount_of_card = models.IntegerField(default=50)
+    profession =  models.CharField(max_length=400, default="None")
 
     def __str__(self):
         return self.customer_name

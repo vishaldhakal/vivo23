@@ -12,7 +12,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'https://vivodashain.com']
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'https://vivodashain.com','http://127.0.0.1:8000']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -119,11 +119,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/staticfiles/'
 STATICFILES_DIRS = [
-
+    os.path.join(BASE_DIR, 'offer/static'),
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = Path(BASE_DIR, 'media')

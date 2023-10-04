@@ -38,13 +38,22 @@ html {
   max-width: 100%;
   height: 112%;
 }
+.bgimg-2 {
+  position: relative;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url('../homepagebg.png');
+  max-width: 100%;
+  height: 112%;
+}
 .form-control:active,.form-control:focus{
   box-shadow: none !important;
   outline: 0px !important;
   border-color: green;
 }
 .mt-5rem{
-  margin-top: 4.5rem !important;
+  margin-top: 9.5rem !important;
 }
 .bgimg-11 {
   position: relative;
@@ -151,4 +160,103 @@ canvas {
   font-size: larger;
   color: rgb(0, 0, 0);
   font-weight: 500;
+}
+
+
+.wrapper {
+  width: 90%;
+  max-width: 34.37em;
+  max-height: 90vh;
+  background-color: #ffffff;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  padding: 3em;
+  border-radius: 1em;
+  box-shadow: 0 4em 5em rgba(27, 8, 53, 0.2);
+}
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.spin-btn:hover, .spin-btn:focus{
+  outline: none;
+  box-shadow: none;
+  filter: drop-shadow(0px 7px 6px rgba(0, 0, 0, 0.59));
+}
+
+
+/* Spinner */
+
+body {
+  background: yellow;
+}
+
+#carousel-wrapper,
+#carousel img {
+  height: 100px;
+  line-height: 100px;
+  color: white;
+}
+
+#carousel img:nth-of-type(1) {
+  -webkit-transform: rotateX(0deg) translateZ(130px);
+}
+#carousel img:nth-of-type(2) {
+  -webkit-transform: rotateX(60deg) translateZ(130px);
+}
+#carousel img:nth-of-type(3) {
+  -webkit-transform: rotateX(120deg) translateZ(130px);
+}
+#carousel img:nth-of-type(4) {
+  -webkit-transform: rotateX(180deg) translateZ(130px);
+}
+#carousel img:nth-of-type(5) {
+  -webkit-transform: rotateX(240deg) translateZ(130px);
+}
+#carousel img:nth-of-type(6) {
+  -webkit-transform: rotateX(300deg) translateZ(130px);
+}
+
+#carousel[data-state="1"] img:nth-of-type(1),
+#carousel[data-state="2"] img:nth-of-type(2),
+#carousel[data-state="3"] img:nth-of-type(3),
+#carousel[data-state="4"] img:nth-of-type(4),
+#carousel[data-state="5"] img:nth-of-type(5),
+#carousel[data-state="6"] img:nth-of-type(6) {
+  opacity: 1;
+}
+
+#carousel-wrapper {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  width: 30%;
+  transform: translateX(-50%) translateY(-50%);
+  perspective: 1100px;
+}
+
+#carousel {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 100;
+  transform-style: preserve-3d;
+  transition: all 1.5s;
+}
+
+#carousel img {
+  display: block;
+  position: absolute;
+  margin: 0;
+  height: 100%;
+  font-size: 80px;
+  font-weight: bold;
+  color: black;
+  text-align: center;
+  opacity: 0.9;
+  transition: all 1.5s;
+  backface-visibility: hidden;
 }

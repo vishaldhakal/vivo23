@@ -84,6 +84,9 @@
                 <th>Date of Purchase</th>
                 <th>How You Know About Campaign</th>
                 <th>Recharge Card</th>
+                <th>Ntc Recharge Card</th>
+                <th>Ntc Recharge Card Amount</th>
+                <th>Profession</th>
               </tr>
             </thead>
             <tfoot>
@@ -100,6 +103,9 @@
                 <th>Date of Purchase</th>
                 <th>How Know About Campaign</th>
                 <th>Recharge Card</th>
+                <th>Ntc Recharge Card</th>
+                <th>Ntc Recharge Card Amount</th>
+                <th>Profession</th>
               </tr>
             </tfoot>
           </table>
@@ -128,16 +134,11 @@
         { data: "date_of_purchase" },
         { data: "how_know_about_campaign" },
         {
-          data: null,
-          render: function (data, type, row) {
-            // Check if the customer didn't receive a gift
-            if (!data.gift__name) {
-              return "Recharge Card";
-            } else {
-              return "";
-            }
-          },
+          data: "recharge_card",
         },
+        { data: "ntc_recharge_card" },
+        { data: "amount_of_card" },
+        { data: "profession" },
       ],
       initComplete: function () {
         this.api()

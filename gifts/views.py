@@ -14,6 +14,7 @@ from datetime import date, timedelta
 import csv
 from json import dumps
 from datetime import date, datetime
+import random
 
 
 def index(request):
@@ -164,7 +165,7 @@ def customerlists():
 
 def dashboard(request):
     datalist = list(Customer.objects.all().values('customer_name', 'shop_name', 'sold_area', 'phone_number', 'phone_model',
-                    'sale_status', 'prize_details', 'imei', 'gift__name', 'date_of_purchase', 'how_know_about_campaign'))
+                    'sale_status', 'prize_details', 'imei', 'gift__name', 'date_of_purchase', 'how_know_about_campaign','ntc_recharge_card','amount_of_card','recharge_card','profession'))
     data = dumps(datalist, default=json_serial)
     return render(request, 'table2.html', {"data": data})
 
@@ -188,12 +189,12 @@ def download_customers_with_gifts(request):
     # Create a CSV writer and write the header row
     writer = csv.writer(response)
     writer.writerow(['Customer Name', 'Shop Name', 'Sold Area', 'Phone Number', 'Phone Model',
-                     'Sale Status', 'Prize Details', 'IMEI', 'Gift', 'Date of Purchase', 'How Know About Campaign'])
+                     'Sale Status', 'Prize Details', 'IMEI', 'Gift', 'Date of Purchase', 'How Know About Campaign', 'NTC Recharge Card', 'Amount of Card', 'Profession', 'Recharge Card'])
 
     # Write the data rows
     for customer in queryset:
         writer.writerow([customer.customer_name, customer.shop_name, customer.sold_area, customer.phone_number, customer.phone_model,
-                         customer.sale_status, customer.prize_details, customer.imei, customer.gift, customer.date_of_purchase, customer.how_know_about_campaign])
+                         customer.sale_status, customer.prize_details, customer.imei, customer.gift, customer.date_of_purchase, customer.how_know_about_campaign, customer.ntc_recharge_card, customer.amount_of_card, customer.professions, customer.recharge_card])
 
     return response
 
@@ -217,12 +218,12 @@ def download_customers_without_gifts(request):
     # Create a CSV writer and write the header row
     writer = csv.writer(response)
     writer.writerow(['Customer Name', 'Shop Name', 'Sold Area', 'Phone Number', 'Phone Model',
-                     'Sale Status', 'Prize Details', 'IMEI', 'Gift', 'Date of Purchase', 'How Know About Campaign'])
+                     'Sale Status', 'Prize Details', 'IMEI', 'Gift', 'Date of Purchase', 'How Know About Campaign', 'NTC Recharge Card', 'Amount of Card', 'Profession', 'Recharge Card'])
 
     # Write the data rows
     for customer in queryset:
         writer.writerow([customer.customer_name, customer.shop_name, customer.sold_area, customer.phone_number, customer.phone_model,
-                         customer.sale_status, customer.prize_details, customer.imei, customer.gift, customer.date_of_purchase, customer.how_know_about_campaign])
+                         customer.sale_status, customer.prize_details, customer.imei, customer.gift, customer.date_of_purchase, customer.how_know_about_campaign, customer.ntc_recharge_card, customer.amount_of_card, customer.professions, customer.recharge_card])
 
     return response
 
@@ -268,15 +269,15 @@ def downloadData(request):
 
     writer = csv.writer(response)
     writer.writerow(['customer_name', 'shop_name', 'sold_area', 'phone_number',
-                    'phone_model', 'gift', 'imei', 'date_of_purchase', 'how_know_about_campaign'])
+                    'phone_model', 'gift', 'imei', 'date_of_purchase', 'how_know_about_campaign', 'ntc_recharge_card', 'amount_of_card','profession','recharge_card'])
 
     for user in users:
         if user.gift:
             writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
-                            user.phone_model, user.gift.name, user.imei, user.date_of_purchase, user.how_know_about_campaign])
+                            user.phone_model, user.gift.name, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.ntc_recharge_card, user.amount_of_card,user.profession,user.recharge_card])
         else:
             writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
-                            user.phone_model, user.gift, user.imei, user.date_of_purchase, user.how_know_about_campaign])
+                            user.phone_model, user.gift, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.ntc_recharge_card, user.amount_of_card,user.profession,user.recharge_card])
     return response
 
 
@@ -291,15 +292,15 @@ def downloadDataToday(request):
 
     writer = csv.writer(response)
     writer.writerow(['customer_name', 'shop_name', 'sold_area', 'phone_number',
-                    'phone_model', 'gift', 'imei', 'date_of_purchase', 'how_know_about_campaign'])
+                    'phone_model', 'gift', 'imei', 'date_of_purchase', 'how_know_about_campaign', 'ntc_recharge_card', 'amount_of_card','profession','recharge_card'])
 
     for user in users:
         if user.gift:
             writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
-                            user.phone_model, user.gift.name, user.imei, user.date_of_purchase, user.how_know_about_campaign])
+                            user.phone_model, user.gift.name, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.ntc_recharge_card, user.amount_of_card,user.profession,user.recharge_card])
         else:
             writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
-                            user.phone_model, user.gift, user.imei, user.date_of_purchase, user.how_know_about_campaign])
+                            user.phone_model, user.gift, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.ntc_recharge_card, user.amount_of_card,user.profession,user.recharge_card])
     return response
 
 
@@ -314,15 +315,15 @@ def downloadDataYesterday(request):
 
     writer = csv.writer(response)
     writer.writerow(['customer_name', 'shop_name', 'sold_area', 'phone_number',
-                    'phone_model', 'gift', 'imei', 'date_of_purchase', 'how_know_about_campaign'])
+                    'phone_model', 'gift', 'imei', 'date_of_purchase', 'how_know_about_campaign', 'ntc_recharge_card', 'amount_of_card','profession','recharge_card'])
 
     for user in users:
         if user.gift:
             writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
-                            user.phone_model, user.gift.name, user.imei, user.date_of_purchase, user.how_know_about_campaign])
+                            user.phone_model, user.gift.name, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.ntc_recharge_card, user.amount_of_card,user.profession,user.recharge_card])
         else:
             writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
-                            user.phone_model, user.gift, user.imei, user.date_of_purchase, user.how_know_about_campaign])
+                            user.phone_model, user.gift, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.ntc_recharge_card, user.amount_of_card,user.profession,user.recharge_card])
     return response
 
 
@@ -331,6 +332,7 @@ def registerCustomer(request):
         customer_name = request.POST["customer_name"]
         contact_number = request.POST["phone_number"]
         shop_name = request.POST["shop_name"]
+        profession = request.POST.get("profession","None")
         sold_area = request.POST["sold_area"]
         phone_model_id = request.POST["phone_model"]
         imei_number = request.POST["imei_number"]
@@ -369,6 +371,7 @@ def registerCustomer(request):
             phone_model=phone_model,
             sale_status="SOLD",
             imei=imei_number,
+            profession=profession,
             how_know_about_campaign=how_know_about_campaign
         )
 
@@ -380,6 +383,7 @@ def registerCustomer(request):
         gift_assigned = False
         recharge_cardd = None
         recharge_card_assigned = False
+        ntc_recharge_card_assigned = False
 
         # Select Gift or Recharge Card
         today_date = date.today()
@@ -410,7 +414,7 @@ def registerCustomer(request):
         if not gift_assigned:
             # Retrieve the weekly offer based on the current date
             weekly_offer = Offers.objects.filter(
-                start_date__lte=today_date, end_date__gte=today_date, type_of_offer="Weekly Offer",phone_price_type=phone_model.phone_price)
+                start_date__lte=today_date, end_date__gte=today_date, type_of_offer="Weekly Offer")
 
             for offer in weekly_offer:
                 if ((get_sale_count + 1) in offer.sale_numbers) and (offer.quantity > 0):
@@ -423,7 +427,7 @@ def registerCustomer(request):
                     break
 
         if not gift_assigned:
-            for offer in Offers.objects.filter(end_date=today_date, phone_price_type=phone_model.phone_price):
+            for offer in Offers.objects.filter(end_date=today_date):
                 if offer.type_of_offer == "After every certain sale":
                     if (((get_sale_count + 1) % int(offer.offer_condition_value) == 0)) and (offer.quantity > 0):
                         qty = offer.quantity
@@ -454,29 +458,43 @@ def registerCustomer(request):
                         qty = recharge_card_offer.quantity
                         recharge_card_offer.quantity = qty - 1
                         recharge_card_offer.save()
-                        recharge_card_assigned = True
-                        recharge = RechargeCard.objects.filter(
-                            provider=provider, is_assigned=False).order_by('?').first()
-                        recharge.is_assigned = True
-                        recharge_cardd = recharge
-                        customer.recharge_card = recharge
-                        customer.save()
+                        if provider == "Ncell":
+                            recharge_card_assigned = True
+                            recharge = RechargeCard.objects.filter(
+                                provider=provider, is_assigned=False).order_by('?').first()
+                            recharge.is_assigned = True
+                            recharge_cardd = recharge
+                            customer.recharge_card = recharge
+                            customer.save()
+                        else:
+                            ntc_recharge_card_assigned = True
+                            arr = [50,100]
+                            random_number = random.choice(arr)
+                            customer.amount_of_card = random_number
+                            customer.ntc_recharge_card = True
+                            customer.save()
                         break
                 else:
                     if ((get_sale_count + 1) in recharge_card_offer.sale_numbers) and (recharge_card_offer.quantity > 0):
                         qty = recharge_card_offer.quantity
                         recharge_card_offer.quantity = qty - 1
                         recharge_card_offer.save()
-                        recharge_card_assigned = True
-                        recharge = RechargeCard.objects.filter(
-                            provider=provider, is_assigned=False).order_by('?').first()
-                        recharge.is_assigned = True
-                        recharge_cardd = recharge
-                        customer.recharge_card = recharge
-                        customer.save()
-                        
-                        break
+                        if provider == "Ncell":
+                            recharge_card_assigned = True
+                            recharge = RechargeCard.objects.filter(
+                                provider=provider, is_assigned=False).order_by('?').first()
+                            recharge.is_assigned = True
+                            recharge_cardd = recharge
+                            customer.recharge_card = recharge
+                            customer.save()
+                        else:
+                            ntc_recharge_card_assigned = True
+                            arr = [50,100]
+                            random_number = random.choice(arr)
+                            customer.amount_of_card = random_number
+                            customer.ntc_recharge_card = True
+                            customer.save()
 
-        return render(request, "output.html", {"customer": customer, "gift_assigned": gift_assigned,"recharge_card": recharge_cardd, "recharge_card_assigned": recharge_card_assigned })
+        return render(request, "output.html", {"customer": customer, "gift_assigned": gift_assigned,"recharge_card": recharge_cardd, "recharge_card_assigned": recharge_card_assigned,"ntc_recharge_card_assigned": ntc_recharge_card_assigned })
     else:
         return redirect('indexWithError')
