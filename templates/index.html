@@ -62,16 +62,9 @@
                                              <div class="mb-3 col">
                                                   <label for="phoneModel" class="form-label">Phone model<span
                                                             class="text-danger">*</span></label>
-                                                  <select class="form-select" id="phoneModel" name="phone_model">
-                                                       <option value="">-- Select a Phone Model --</option>
-                                                       {% for phone_model in phone_models %}
-                                                       <option value="{{ phone_model.id }}">
-                                                            {{phone_model.phone_model}}
-                                                       </option>
-                                                       {% endfor %}
-                                                  </select>
+                                                  <input type="text" class="form-control" id="phoneModel"
+                                                       name="phone_model" required />
                                              </div>
-
                                              <!-- imei number -->
                                              <div class="mb-3 col">
                                                   <label for="imeiNumber" class="form-label">IMEI number<span

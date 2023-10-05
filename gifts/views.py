@@ -338,7 +338,7 @@ def registerCustomer(request):
         shop_name = request.POST["shop_name"]
         profession = request.POST.get("profession","None")
         sold_area = request.POST["sold_area"]
-        phone_model_id = request.POST["phone_model"]
+        phone_model = request.POST["phone_model"]
         imei_number = request.POST["imei_number"]
         how_know_about_campaign = request.POST["how_know_about_campaign"]
         provider = request.POST["provider"]
@@ -363,8 +363,6 @@ def registerCustomer(request):
         if(imei_check==False):
             request.session['error_message'] = "Invalid IMEI"
             return redirect('index')
-
-        phone_model = MobilePhone.objects.get(id=phone_model_id)
 
         # Create a new customer
         customer = Customer.objects.create(

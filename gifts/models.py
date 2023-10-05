@@ -144,7 +144,7 @@ class Customer(models.Model):
     shop_name = models.TextField()
     sold_area = models.CharField(max_length=800)
     phone_number = models.CharField(max_length=400)
-    phone_model = models.ForeignKey(MobilePhone, on_delete=models.CASCADE)
+    phone_model = models.CharField(max_length=400)
     sale_status = models.CharField(max_length=400, default="SOLD")
     prize_details = models.CharField(
         max_length=900, default="Happy Dashain and Tihar")
