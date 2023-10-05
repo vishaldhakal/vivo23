@@ -416,7 +416,7 @@ def registerCustomer(request):
         if not gift_assigned:
             # Retrieve the weekly offer based on the current date
             weekly_offer = Offers.objects.filter(
-                start_date__lte=today_date, end_date__gte=today_date, type_of_offer="Weekly Offer").order_by('-priority')
+                start_date__lte=today_date, end_date__gte=today_date, type_of_offer="Weekly Offer")
 
             for offer in weekly_offer:
                 if ((get_sale_count + 1) in offer.sale_numbers) and (offer.quantity > 0):
@@ -429,7 +429,7 @@ def registerCustomer(request):
                     break
 
         if not gift_assigned:
-            for offer in Offers.objects.filter(end_date__gte=today_date).order_by('-priority'):
+            for offer in Offers.objects.filter(end_date__gte=today_date):
                 if offer.type_of_offer == "After every certain sale":
                     if (((get_sale_count + 1) % int(offer.offer_condition_value) == 0)) and (offer.quantity > 0):
                         qty = offer.quantity
