@@ -23,6 +23,8 @@ class CustomerAdmin(admin.ModelAdmin):
         "phone_model",
         "sale_status",
         "gift",
+        "recharge_card",
+        "ntc_recharge_card",
         "imei",
         "date_of_purchase",
         "how_know_about_campaign",
