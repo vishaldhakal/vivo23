@@ -25,6 +25,7 @@ def index(request):
     phone_models = MobilePhone.objects.all()
 
     error_message = request.session.pop('error_message', None)
+    gift_message = request.session.pop('gift_message', None)
 
     context = {
         'phone_models': phone_models,
@@ -32,6 +33,9 @@ def index(request):
 
     if error_message:
         context['error'] = error_message
+    
+    if gift_message:
+        context['gift'] = gift_message
 
     return render(request, 'index.html', context)
 
@@ -198,7 +202,7 @@ def download_customers_with_gifts(request):
     # Write the data rows
     for customer in queryset:
         writer.writerow([customer.customer_name, customer.shop_name, customer.sold_area, customer.phone_number, customer.phone_model,
-                         customer.sale_status, customer.prize_details, customer.imei, customer.gift, customer.date_of_purchase, customer.how_know_about_campaign, customer.ntc_recharge_card, customer.amount_of_card, customer.professions, customer.recharge_card])
+                         customer.sale_status, customer.prize_details, customer.imei, customer.gift, customer.date_of_purchase, customer.how_know_about_campaign, customer.ntc_recharge_card, customer.amount_of_card, customer.profession, customer.recharge_card])
 
     return response
 
@@ -227,7 +231,7 @@ def download_customers_without_gifts(request):
     # Write the data rows
     for customer in queryset:
         writer.writerow([customer.customer_name, customer.shop_name, customer.sold_area, customer.phone_number, customer.phone_model,
-                         customer.sale_status, customer.prize_details, customer.imei, customer.gift, customer.date_of_purchase, customer.how_know_about_campaign, customer.ntc_recharge_card, customer.amount_of_card, customer.professions, customer.recharge_card])
+                         customer.sale_status, customer.prize_details, customer.imei, customer.gift, customer.date_of_purchase, customer.how_know_about_campaign, customer.ntc_recharge_card, customer.amount_of_card, customer.profession, customer.recharge_card])
 
     return response
 
@@ -343,14 +347,25 @@ def registerCustomer(request):
         how_know_about_campaign = request.POST["how_know_about_campaign"]
         provider = request.POST["provider"]
 
+        # Check if the IMEI number is already registered by another customer
+        if Customer.objects.filter(imei=imei_number).exists():
+            cust = Customer.objects.filter(imei=imei_number)
+            request.session['error_message'] = "The IMEI number is already registered by another customer."
+            message = ""
+            if cust.gift:
+                message = "You have won Gift: " + cust.gift.name
+            elif cust.ntc_recharge_card:
+                message = "You have won Recharge Card: " + cust.amount_of_card
+            elif cust.recharge_card:
+                message = "You have won Recharge Card: " + cust.recharge_card
+            else:
+                message = "No Gift Allocated"
+            return redirect('index')
+        
+
         # Check if a customer with the same phone number already exists
         if Customer.objects.filter(phone_number=contact_number).exists():
             request.session['error_message'] = "A customer with the same phone number already exists."
-            return redirect('index')
-
-        # Check if the IMEI number is already registered by another customer
-        if Customer.objects.filter(imei=imei_number).exists():
-            request.session['error_message'] = "The IMEI number is already registered by another customer."
             return redirect('index')
 
         # Check if the IMEI number is valid and available in IMEINO table

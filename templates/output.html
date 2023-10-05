@@ -172,7 +172,7 @@
                     '-webkit-transform': 'rotateX(' + (increment * -60) + 'deg)'
                })
                carousel.attr('data-state', (increment % 6) + 1);
-          }, 150)
+          }, 200)
 
           function selectgift() {
                imgbox.classList.add("d-none");
@@ -181,7 +181,7 @@
                let vis = document.getElementById("vis");
                vis.classList.remove("d-none");
                imgbox2.classList.remove("d-none");
-               setInterval(selectgift2, 4000);
+               setInterval(selectgift2, 3000);
           }
 
           function selectgift2() {
