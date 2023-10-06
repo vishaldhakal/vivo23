@@ -349,14 +349,23 @@ def registerCustomer(request):
 
         # Check if the IMEI number is already registered by another customer
         if Customer.objects.filter(imei=imei_number).exists():
+            cust = Customer.objects.get(imei=imei_number)
             request.session['error_message'] = "The IMEI number is already registered by another customer."
+            message = ""
+            if cust.gift:
+                message += "You have won Gift: " + cust.gift.name
+            elif cust.ntc_recharge_card:
+                message += "You have won Rs : " + str(cust.amount_of_card) + " NTC Recharge Card. You Mobile would be recharged within 24hrs." 
+            elif cust.recharge_card:
+                message += "You have won Rs : " + str(cust.recharge_card.amount) + " Ncell Recharge card. Here's your PIN : "+ cust.recharge_card.cardno
+            else:
+                message += "No Gift Allocated"
+            request.session['gift_message'] = message
             return redirect('index')
         
 
         # Check if a customer with the same phone number already exists
-        if Customer.objects.filter(phone_number=contact_number).exists():
-            request.session['error_message'] = "A customer with the same phone number already exists."
-            return redirect('index')
+        
 
         # Check if the IMEI number is valid and available in IMEINO table
         imei_check=False
