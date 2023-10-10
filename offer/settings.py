@@ -14,8 +14,6 @@ ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'https://vivodashain.com','http://127.0.0.1:8000']
 
-CORS_ORIGIN_ALLOW_ALL = True
-
 # Application definition
 INSTALLED_APPS = [
     'jazzmin',
