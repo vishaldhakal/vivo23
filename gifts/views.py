@@ -289,6 +289,40 @@ def downloadData(request):
     return response
 
 
+def exportSummary(request):
+    saless = Sales.objects.all()
+    
+
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="summary.csv"'
+
+    #Get the count of each of the gifts on each sales day along with ntc_recharge card, its amount and recharge_card
+    writer = csv.writer(response)
+    writer.writerow(['date','card_provider','amount','count'])
+    for sales in saless:
+        ntc_50 = Customer.objects.filter(date_of_purchase=sales.date,ntc_recharge_card=True,amount_of_card=50).count()
+        ntc_100 = Customer.objects.filter(date_of_purchase=sales.date,ntc_recharge_card=True,amount_of_card=100).count()
+        ntc_200 = Customer.objects.filter(date_of_purchase=sales.date,ntc_recharge_card=True,amount_of_card=200).count()
+        ntc_500 = Customer.objects.filter(date_of_purchase=sales.date,ntc_recharge_card=True,amount_of_card=500).count()
+        
+        ncell = Customer.objects.filter(date_of_purchase=sales.date,recharge_card__isnull=False)
+        ncell_50 = ncell.filter(recharge_card__provider="Ncell",recharge_card__amount=50).count()
+        ncell_100 = ncell.filter(recharge_card__provider="Ncell",recharge_card__amount=100).count()
+        ncell_200 = ncell.filter(recharge_card__provider="Ncell",recharge_card__amount=200).count()
+        ncell_500 = ncell.filter(recharge_card__provider="Ncell",recharge_card__amount=500).count()
+
+        writer.writerow([sales.date,"Ntc",50,ntc_50])
+        writer.writerow([sales.date,"Ntc",100,ntc_100])
+        writer.writerow([sales.date,"Ntc",200,ntc_200])
+        writer.writerow([sales.date,"Ntc",500,ntc_500])
+        writer.writerow([sales.date,"Ncell",50,ncell_50])
+        writer.writerow([sales.date,"Ncell",100,ncell_100])
+        writer.writerow([sales.date,"Ncell",200,ncell_200])
+        writer.writerow([sales.date,"Ncell",500,ncell_500])
+    return response
+
+
 def downloadDataToday(request):
     # Get all data from UserDetail Databse Table
     today_date = date.today()
