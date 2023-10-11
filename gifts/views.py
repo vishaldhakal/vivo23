@@ -514,6 +514,7 @@ def registerCustomer(request):
                             recharge = RechargeCard.objects.filter(
                                 provider=provider, is_assigned=False,amount=amt).order_by('?').first()
                             recharge.is_assigned = True
+                            recharge.save()
                             recharge_cardd = recharge
                             customer.recharge_card = recharge
                             customer.save()
@@ -533,6 +534,7 @@ def registerCustomer(request):
                             recharge = RechargeCard.objects.filter(
                                 provider=provider, is_assigned=False).order_by('?').first()
                             recharge.is_assigned = True
+                            recharge.save()
                             recharge_cardd = recharge
                             customer.recharge_card = recharge
                             customer.save()
@@ -546,3 +548,11 @@ def registerCustomer(request):
         return render(request, "output.html", {"customer": customer, "gift_assigned": gift_assigned,"recharge_card": recharge_cardd, "recharge_card_assigned": recharge_card_assigned,"ntc_recharge_card_assigned": ntc_recharge_card_assigned })
     else:
         return redirect('indexWithError')
+    
+
+def convallrec(request):
+    custt = Customer.objects.filter(recharge_Card__isnull=False)
+    for cus in custt:
+        recc = cus.recharge_card
+        recc.is_assigned = True
+        recc.save()
