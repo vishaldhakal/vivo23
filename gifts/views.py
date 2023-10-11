@@ -399,6 +399,9 @@ def registerCustomer(request):
         
 
         # Check if a customer with the same phone number already exists
+        if Customer.objects.filter(phone_number=contact_number).exists():
+            request.session['error_message'] = "A customer with the same phone number already exists."
+            return redirect('index')
         
 
         # Check if the IMEI number is valid and available in IMEINO table
