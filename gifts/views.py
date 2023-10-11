@@ -551,7 +551,7 @@ def registerCustomer(request):
     
 
 def convallrec(request):
-    custt = Customer.objects.filter(recharge_Card__isnull=False)
+    custt = Customer.objects.filter(recharge_card__isnull=False)
     for cus in custt:
         recc = cus.recharge_card
         recc.is_assigned = True
