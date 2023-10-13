@@ -197,7 +197,7 @@ def download_customers_with_gifts(request):
     # Create a CSV writer and write the header row
     writer = csv.writer(response)
     writer.writerow(['Customer Name', 'Shop Name', 'Sold Area', 'Phone Number', 'Phone Model',
-                     'Sale Status', 'Prize Details', 'IMEI', 'Gift', 'Date of Purchase', 'How Know About Campaign', 'NTC Recharge Card', 'Amount of Card', 'Profession', 'Recharge Card'])
+                     'Sale Status', 'Prize Details', 'IMEI', 'Gift', 'Date of Purchase', 'How Know About Campaign', 'NTC Recharge Card', 'Amount of Ntc Card', 'Profession', 'Ncell Recharge Card'])
 
     # Write the data rows
     for customer in queryset:
@@ -226,7 +226,7 @@ def download_customers_without_gifts(request):
     # Create a CSV writer and write the header row
     writer = csv.writer(response)
     writer.writerow(['Customer Name', 'Shop Name', 'Sold Area', 'Phone Number', 'Phone Model',
-                     'Sale Status', 'Prize Details', 'IMEI', 'Gift', 'Date of Purchase', 'How Know About Campaign', 'NTC Recharge Card', 'Amount of Card', 'Profession', 'Recharge Card'])
+                     'Sale Status', 'Prize Details', 'IMEI', 'Gift', 'Date of Purchase', 'How Know About Campaign', 'NTC Recharge Card', 'Amount of Ntc Card', 'Profession', 'Ncell Recharge Card'])
 
     # Write the data rows
     for customer in queryset:
@@ -277,7 +277,7 @@ def downloadData(request):
 
     writer = csv.writer(response)
     writer.writerow(['customer_name', 'shop_name', 'sold_area', 'phone_number',
-                    'phone_model', 'gift', 'imei', 'date_of_purchase', 'how_know_about_campaign', 'ntc_recharge_card', 'amount_of_card','profession','recharge_card'])
+                    'phone_model', 'gift', 'imei', 'date_of_purchase', 'how_know_about_campaign', 'ntc_recharge_card', 'amount_of_ntc','profession','ncell_recharge_card'])
 
     for user in users:
         if user.gift:
@@ -384,7 +384,7 @@ def registerCustomer(request):
         # Check if the IMEI number is already registered by another customer
         if Customer.objects.filter(imei=imei_number).exists():
             cust = Customer.objects.get(imei=imei_number)
-            request.session['error_message'] = "The IMEI number is already registered by another customer."
+            request.session['error_message'] = "The IMEI number is already registered by another customer with phone no : "+cust.phone_number
             message = ""
             if cust.gift:
                 message += "You have won Gift: " + cust.gift.name
