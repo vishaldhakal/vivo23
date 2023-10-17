@@ -374,6 +374,10 @@ def getNcell500(request):
     getrec.save()
     return HttpResponse("Ncell 500 Recharge Card Assigned"+getrec.cardno)
 
+def getNcell500Used(request):
+    getrec = RechargeCard.objects.filter(provider="Ncell",amount=500,is_assigned=True)
+    return JsonResponse(list(getrec.values()),safe=False)
+
 def registerCustomer(request):
     if request.method == "POST":
         customer_name = request.POST["customer_name"]
