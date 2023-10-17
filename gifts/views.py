@@ -368,6 +368,11 @@ def downloadDataYesterday(request):
                             user.phone_model, user.gift, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.ntc_recharge_card, user.amount_of_card,user.profession,user.recharge_card])
     return response
 
+def getNcell500(request):
+    getrec = RechargeCard.objects.filter(provider="Ncell",amount=500,is_assigned=False).order_by('?').first()
+    getrec.is_assigned = True
+    getrec.save()
+    return HttpResponse("Ncell 500 Recharge Card Assigned"+getrec.cardno)
 
 def registerCustomer(request):
     if request.method == "POST":
@@ -396,13 +401,9 @@ def registerCustomer(request):
             request.session['gift_message'] = message
             return redirect('index')
         
-
-        
         if Customer.objects.filter(phone_number=contact_number).exists():
             request.session['error_message'] = "A customer with the same phone number already exists."
             return redirect('index')
-        
-        
 
         # Check if the IMEI number is valid and available in IMEINO table
         imei_check=False

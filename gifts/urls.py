@@ -1,7 +1,7 @@
 from django import views
 from django.contrib import admin
 from django.urls import path
-from .views import customer_dashboard, convallrec,customerlists,removerec, download_customers_with_gifts, download_customers_without_gifts, home, index, dashboard, upload_recharge_cards,uploadIMEI, registerCustomer,deleteAllImeis,adminIndex,uploadIMEInos,indexWithError,downloadData,downloadDataToday,downloadDataYesterday,reuseIMEI,exportSummary
+from .views import customer_dashboard, convallrec,customerlists,removerec,getNcell500, download_customers_with_gifts, download_customers_without_gifts, home, index, dashboard, upload_recharge_cards,uploadIMEI, registerCustomer,deleteAllImeis,adminIndex,uploadIMEInos,indexWithError,downloadData,downloadDataToday,downloadDataYesterday,reuseIMEI,exportSummary
 
 urlpatterns = [
     path('', index,name='index'),
@@ -29,4 +29,5 @@ urlpatterns = [
     path('export-summary/', exportSummary,name = 'exportSummary'),
     path('recc/', convallrec,name = 'convallrec'),
     path('export-yesterday/', downloadDataYesterday,name = 'down-yest'),
+    path('get-ncell-500/', getNcell500,name = 'getNcell500'),
 ]
