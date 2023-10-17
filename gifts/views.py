@@ -381,7 +381,6 @@ def registerCustomer(request):
         how_know_about_campaign = request.POST["how_know_about_campaign"]
         provider = request.POST["provider"]
 
-        # Check if the IMEI number is already registered by another customer
         if Customer.objects.filter(imei=imei_number).exists():
             cust = Customer.objects.get(imei=imei_number)
             request.session['error_message'] = "The IMEI number is already registered by another customer with phone no : "+cust.phone_number
@@ -399,7 +398,17 @@ def registerCustomer(request):
         
 
         # Check if a customer with the same phone number already exists
+        cont_noo = contact_number.replace("-", "")
+        cont_noo2 = cont_noo.replace("977", "")
+        if cont_noo2.length != 10:
+            request.session['error_message'] = "Invalid Phone Number [ Enter 10 digits number only ]"
+            return redirect('index')
+        
         if Customer.objects.filter(phone_number=contact_number).exists():
+            request.session['error_message'] = "A customer with the same phone number already exists."
+            return redirect('index')
+        
+        if Customer.objects.filter(phone_number=cont_noo2).exists():
             request.session['error_message'] = "A customer with the same phone number already exists."
             return redirect('index')
         
@@ -418,7 +427,7 @@ def registerCustomer(request):
         # Create a new customer
         customer = Customer.objects.create(
             customer_name=customer_name,
-            phone_number=contact_number,
+            phone_number=cont_noo2,
             shop_name=shop_name,
             sold_area=sold_area,
             phone_model=phone_model,
