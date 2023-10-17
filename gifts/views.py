@@ -397,20 +397,11 @@ def registerCustomer(request):
             return redirect('index')
         
 
-        # Check if a customer with the same phone number already exists
-        cont_noo = contact_number.replace("-", "")
-        cont_noo2 = cont_noo.replace("977", "")
-        if cont_noo2.length != 10:
-            request.session['error_message'] = "Invalid Phone Number [ Enter 10 digits number only ]"
-            return redirect('index')
         
         if Customer.objects.filter(phone_number=contact_number).exists():
             request.session['error_message'] = "A customer with the same phone number already exists."
             return redirect('index')
         
-        if Customer.objects.filter(phone_number=cont_noo2).exists():
-            request.session['error_message'] = "A customer with the same phone number already exists."
-            return redirect('index')
         
 
         # Check if the IMEI number is valid and available in IMEINO table
@@ -427,7 +418,7 @@ def registerCustomer(request):
         # Create a new customer
         customer = Customer.objects.create(
             customer_name=customer_name,
-            phone_number=cont_noo2,
+            phone_number=contact_number,
             shop_name=shop_name,
             sold_area=sold_area,
             phone_model=phone_model,
