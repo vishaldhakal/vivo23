@@ -378,6 +378,22 @@ def getNcell500Used(request):
     getrec = RechargeCard.objects.filter(provider="Ncell",amount=500,is_assigned=True)
     return JsonResponse(list(getrec.values()),safe=False)
 
+def getNcellUsed(request):
+    getrec = RechargeCard.objects.filter(provider="Ncell",is_assigned=True)
+    #csv
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="ncellused.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['cardno','provider','amount','is_assigned'])
+
+    for rec in getrec:
+        writer.writerow([rec.cardno,rec.provider,rec.amount,rec.is_assigned])
+        
+    return response
+
+
+
 def registerCustomer(request):
     if request.method == "POST":
         customer_name = request.POST["customer_name"]
