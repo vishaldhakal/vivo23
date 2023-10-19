@@ -305,6 +305,9 @@ def exportSummary(request):
         ntc_100 = Customer.objects.filter(date_of_purchase=sales.date,ntc_recharge_card=True,amount_of_card=100).count()
         ntc_200 = Customer.objects.filter(date_of_purchase=sales.date,ntc_recharge_card=True,amount_of_card=200).count()
         ntc_500 = Customer.objects.filter(date_of_purchase=sales.date,ntc_recharge_card=True,amount_of_card=500).count()
+        waterbottle = Customer.objects.filter(date_of_purchase=sales.date,gift__name="Water Bottle").count()
+        speaker =  Customer.objects.filter(date_of_purchase=sales.date,gift__name="Speaker").count()
+        side_bag = Customer.objects.filter(date_of_purchase=sales.date,gift__name="Side Bag").count()
         
         ncell = Customer.objects.filter(date_of_purchase=sales.date,recharge_card__isnull=False)
         ncell_50 = ncell.filter(recharge_card__provider="Ncell",recharge_card__amount=50).count()
@@ -320,6 +323,9 @@ def exportSummary(request):
         writer.writerow([sales.date,"Ncell",100,ncell_100])
         writer.writerow([sales.date,"Ncell",200,ncell_200])
         writer.writerow([sales.date,"Ncell",500,ncell_500])
+        writer.writerow([sales.date,"Water Bottle",50,waterbottle])
+        writer.writerow([sales.date,"Speaker",100,speaker])
+        writer.writerow([sales.date,"Side Bag",200,side_bag])
     return response
 
 
