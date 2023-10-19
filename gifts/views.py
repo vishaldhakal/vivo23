@@ -340,7 +340,7 @@ def downloadDataToday(request):
 
     writer = csv.writer(response)
     writer.writerow(['customer_name', 'shop_name', 'sold_area', 'phone_number',
-                    'phone_model', 'gift', 'imei', 'date_of_purchase', 'how_know_about_campaign', 'ntc_recharge_card', 'amount_of_card','profession','recharge_card'])
+                    'phone_model', 'gift', 'imei', 'date_of_purchase', 'how_know_about_campaign', 'ntc_recharge_card', 'amount_of_ntc','profession','ncell_recharge_card'])
 
     for user in users:
         if user.gift:
@@ -363,7 +363,7 @@ def downloadDataYesterday(request):
 
     writer = csv.writer(response)
     writer.writerow(['customer_name', 'shop_name', 'sold_area', 'phone_number',
-                    'phone_model', 'gift', 'imei', 'date_of_purchase', 'how_know_about_campaign', 'ntc_recharge_card', 'amount_of_card','profession','recharge_card'])
+                    'phone_model', 'gift', 'imei', 'date_of_purchase', 'how_know_about_campaign', 'ntc_recharge_card', 'amount_of_ntc','profession','ncell_recharge_card'])
 
     for user in users:
         if user.gift:
