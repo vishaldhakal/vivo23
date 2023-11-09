@@ -121,6 +121,16 @@ def reuseIMEI(request, str):
     }
     return render(request, "index.html", ctx)
 
+def getAllImeis(request):
+    #in csv
+    imeis = IMEINO.objects.all()
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="allimeis.csv"'
+    writer = csv.writer(response)
+    writer.writerow(['imei_no','used'])
+    for imei in imeis:
+        writer.writerow([imei.imei_no,imei.used])
+    return response
 
 def upload_recharge_cards(request):
     if request.method == "POST":
