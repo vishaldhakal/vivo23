@@ -98,10 +98,7 @@ def uploadIMEInos(request):
             if line:
                 # Validate IMEI format (15 digits)
                 if len(line) == 15 and line.isdigit():
-                    if IMEINO.objects.filter(imei_no=line).exists():
-                        pass
-                    else:
-                        imei_objects.append(IMEINO(imei_no=line))
+                    imei_objects.append(IMEINO(imei_no=line))
                 else:
                     ctx = {'error': f'Invalid IMEI format: {line}'}
                     return render(request, 'index.html', ctx)
