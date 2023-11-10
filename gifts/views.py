@@ -112,14 +112,16 @@ def uploadIMEInos(request):
     return render(request, 'upload_imei.html')
 
 def removeDublicateImeis(request):
-    imeis = IMEINO.objects.all()
-    for imei in imeis:
-        count = IMEINO.objects.filter(imei_no=imei.imei_no).count()
-        while count > 1:
-            todel = IMEINO.objects.filter(imei_no=imei.imei_no,used=False).first()
-            if todel:
-                todel.delete()
-    return HttpResponse("Dublicate IMEI Removed")
+    with open('aaa.csv', newline='') as f:
+        reader = csv.reader(f)
+        data = list(reader)
+        for row in data:
+            imei = IMEINO.objects.filter(imei_no=row[0],used=False).first()
+            imei.delete()
+    ctx = {
+        "error":"Invalid IMEI"
+    }
+    return render(request, "index.html",ctx)
 
 def reuseIMEI(request, str):
     okk = IMEINO.objects.get(imei_no=str)
