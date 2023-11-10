@@ -98,7 +98,10 @@ def uploadIMEInos(request):
             if line:
                 # Validate IMEI format (15 digits)
                 if len(line) == 15 and line.isdigit():
-                    imei_objects.append(IMEINO(imei_no=line))
+                    if IMEINO.objects.filter(imei_no=line).exists():
+                        pass
+                    else:
+                        imei_objects.append(IMEINO(imei_no=line))
                 else:
                     ctx = {'error': f'Invalid IMEI format: {line}'}
                     return render(request, 'index.html', ctx)
@@ -110,6 +113,14 @@ def uploadIMEInos(request):
         return render(request, 'index.html', ctx)
 
     return render(request, 'upload_imei.html')
+
+def removeDublicateImeis(request):
+    imeis = IMEINO.objects.all()
+    for imei in imeis:
+        if IMEINO.objects.filter(imei_no=imei.imei_no).count() > 1:
+            todel = IMEINO.objects.get(used=False)
+            todel.delete()
+    return HttpResponse("Dublicate IMEI Removed")
 
 
 def reuseIMEI(request, str):
