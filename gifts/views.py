@@ -119,7 +119,6 @@ def removeDublicateImeis(request):
             todel.delete()
     return HttpResponse("Dublicate IMEI Removed")
 
-
 def reuseIMEI(request, str):
     okk = IMEINO.objects.get(imei_no=str)
     okk.used = False
@@ -474,7 +473,7 @@ def registerCustomer(request):
         )
 
         # Mark the IMEI as used
-        imeii = IMEINO.objects.get(imei_no=imei_number)
+        imeii = IMEINO.objects.filter(imei_no=imei_number).first()
         imeii.used = True
         imeii.save()
 
