@@ -117,7 +117,8 @@ def removeDublicateImeis(request):
         data = list(reader)
         for row in data:
             imei = IMEINO.objects.filter(imei_no=row[0],used=False).first()
-            imei.delete()
+            if imei:
+                imei.delete()
     ctx = {
         "error":"Invalid IMEI"
     }
