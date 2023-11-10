@@ -116,9 +116,9 @@ def removeDublicateImeis(request):
     for imei in imeis:
         count = IMEINO.objects.filter(imei_no=imei.imei_no).count()
         while count > 1:
-            todel = IMEINO.objects.get(used=False)
-            todel.delete()
-            
+            todel = IMEINO.objects.filter(imei_no=imei.imei_no,used=False).first()
+            if todel:
+                todel.delete()
     return HttpResponse("Dublicate IMEI Removed")
 
 def reuseIMEI(request, str):
