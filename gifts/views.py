@@ -420,6 +420,20 @@ def getNcellUsed(request):
         
     return response
 
+def getNcellUnUsed(request):
+    getrec = RechargeCard.objects.filter(provider="Ncell",is_assigned=False)
+    #csv
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="ncellused.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['cardno','provider','amount','is_assigned'])
+
+    for rec in getrec:
+        writer.writerow([rec.cardno,rec.provider,rec.amount,rec.is_assigned])
+        
+    return response
+
 
 
 def registerCustomer(request):

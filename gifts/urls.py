@@ -1,7 +1,7 @@
 from django import views
 from django.contrib import admin
 from django.urls import path
-from .views import customer_dashboard, removeDublicateImeis,convallrec,getAllImeis,getNcellUsed,customerlists,getNcell500Used,removerec,getNcell500, download_customers_with_gifts, download_customers_without_gifts, home, index, dashboard, upload_recharge_cards,uploadIMEI, registerCustomer,deleteAllImeis,adminIndex,uploadIMEInos,indexWithError,downloadData,downloadDataToday,downloadDataYesterday,reuseIMEI,exportSummary
+from .views import customer_dashboard,getNcellUnUsed, removeDublicateImeis,convallrec,getAllImeis,getNcellUsed,customerlists,getNcell500Used,removerec,getNcell500, download_customers_with_gifts, download_customers_without_gifts, home, index, dashboard, upload_recharge_cards,uploadIMEI, registerCustomer,deleteAllImeis,adminIndex,uploadIMEInos,indexWithError,downloadData,downloadDataToday,downloadDataYesterday,reuseIMEI,exportSummary
 
 urlpatterns = [
     path('', index,name='index'),
@@ -32,6 +32,7 @@ urlpatterns = [
     path('get-ncell-500/', getNcell500,name = 'getNcell500'),
     path('get-ncell-500-used/', getNcell500Used,name = 'getNcell500Used'),
     path('get-used-ncell/', getNcellUsed,name = 'getNcellUsed'),
+    path('get-unused-ncell/', getNcellUnUsed,name = 'getNcellUnUsed'),
     path('get-all-imeis/', getAllImeis,name = 'getAllImeis'),
     path('delete-dublicates/', removeDublicateImeis,name = 'delete-dublicates'),
 ]
