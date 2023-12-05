@@ -34,7 +34,7 @@ html {
 }
 
 .bgimg-1 {
-  background-image: url('../homebg.png');
+  background-image: url('../background.png');
   max-width: 100%;
   height: 112%;
 }
@@ -43,7 +43,7 @@ html {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  background-image: url('../homepagebg.png');
+  background-image: url('../background.jpg');
   max-width: 100%;
   height: 112%;
 }
@@ -60,7 +60,7 @@ html {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  background-image: url('../homebg.png');
+  background-image: url('../background.jpg');
   max-width: 100%;
   height: 100%;
 }
@@ -81,7 +81,7 @@ html {
 .caption {
   position: absolute;
   left: 0;
-  top: 5%;
+  top: 18% !important;
   width: 100%;
   text-align: center;
   color: #000;
@@ -190,9 +190,9 @@ canvas {
 
 /* Spinner */
 
-body {
+/* body {
   background: yellow;
-}
+} */
 
 #carousel-wrapper,
 #carousel img {

@@ -65,12 +65,20 @@ class Offers(models.Model):
         ("After every certain sale", "After every certain sale"),
         ("At certain sale position", "At certain sale position"),
         ("Weekly Offer", "Weekly Offer"),
+        ("Y27s Offer", "Y27s Offer"),
+    ]
+    
+    VALID_CHOICES = [
+        ("V Series Offer", "V Series Offer"),
+        ("Y Series Offer", "Y Series Offer"),
+        ("All", "All"),
     ]
 
     gift = models.ForeignKey(Gift, on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
     type_of_offer = models.CharField(max_length=800, choices=OFFER_CHOICES)
+    validto = models.CharField(max_length=800, choices=VALID_CHOICES,default="All")
     offer_condition_value = models.CharField(max_length=500,blank=True)
     quantity = models.IntegerField()
     sale_numbers = models.JSONField(null=True, blank=True)

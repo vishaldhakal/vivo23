@@ -3,23 +3,192 @@
 <html lang="en">
 
 <head>
-     <!-- Required meta tags -->
+
      <meta charset="utf-8" />
      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-     <!-- Bootstrap CSS -->
+
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
      <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 
      <title>Lucky Draw</title>
+     <style>
+          .mypath {
+               max-width: 500px;
+               --mypath-radius: 31px;
+               --mypath-border: 2px dashed;
+          }
+
+          .mypath>div {
+
+               border-top: var(--mypath-border);
+               border-color: #777 !important;
+               margin: 0;
+               padding: var(--mypath-radius);
+          }
+
+          .mypath>div:nth-child(even) {
+               border-left: var(--mypath-border);
+               border-top-left-radius: var(--mypath-radius);
+               border-bottom-left-radius: var(--mypath-radius);
+               margin-right: var(--mypath-radius);
+               padding-right: 0;
+          }
+
+          .mypath>div:nth-child(odd) {
+               border-right: var(--mypath-border);
+               border-top-right-radius: var(--mypath-radius);
+               border-bottom-right-radius: var(--mypath-radius);
+               margin-left: var(--mypath-radius);
+               padding-left: 0;
+          }
+
+          .mypath>div:first-child {
+               border-top: 0;
+               border-top-right-radius: 0;
+               border-top-left-radius: 0;
+          }
+
+          .small img {
+               height: 300px !important;
+          }
+
+          .mypath>div:last-child {
+               border-bottom-right-radius: 0;
+               border-bottom-left-radius: 0;
+          }
+
+          .sec img {
+               height: 300px;
+          }
+
+          @media screen and (max-width: 768px) {
+               .sec img {
+                    height: 0px;
+               }
+          }
+
+          .title {
+               color: cornflowerblue;
+          }
+     </style>
 </head>
 
 <body>
      <div class="bgimg-1">
-          <div>
+          <div class="d-block" id="firstt">
+               <div class="d-flex flex-column justify-content-between container-fluid" lc-helper="background"
+                    style="min-height:80vh;">
+                    <div class="items-center mx-auto my-3">
+                         <img src="{% static 'logo.png' %}" alt="vivo-logo" class="img-fluid" style="width: 200px;">
+                    </div>
+                    <div class="items-center mx-auto my-1">
+                         <img src="{% static 'carnival.png' %}" alt="carnival-logo" class="img-fluid"
+                              style="height: 300px;">
+                    </div>
+                    <div class="items-center mx-auto bg-danger rounded-3">
+                         <h5 class="text-white mb-2 text-center">{{error}}</h5>
+                         <h5 class="text-white">{{gift}}</h5>
+                    </div>
+                    {% if error %}
+                    <div
+                         class="d-flex flex-column-reverse flex-md-row justify-content-around align-items-center align-items-md-around">
+                         <div class="small">
+                              <button class="btn btn-danger btn-lg w-100" id="participate">Try Again</button>
+                         </div>
+                    </div>
+                    {% else %}
+                    <div
+                         class="d-flex flex-column-reverse flex-md-row justify-content-around align-items-center align-items-md-around">
+                         <div class="small">
+                              <img src="{% static 'vivocarnival.jpg' %}" alt="vivo-logo" class="img-fluid">
+                              <p class="text-center bg-light">Scan above QR or click on the button Below</p>
+                              <button class="btn btn-danger btn-lg w-100" id="participate">Participate Now</button>
+                         </div>
+                         <div class="flex align-self-end sec">
+                              <img src="{% static 'phone.png' %}" alt="vivo-logo" class="img-fluid">
+                         </div>
+                    </div>
+                    {% endif %}
+
+                    <img src="{% static 'dubai.png' %}" alt="vivo-logo" class="img-fluid">
+               </div>
+
+               <!-- Centered cards section with boxshadow-->
+
+               <div class="py-3 my-2"></div>
+               <div class="mypath mx-auto px-2">
+                    <div class="lc-block">
+                         <div editable="rich">
+                              <p class="display-6 fw-bolder text-dark">How to participate?</p>
+                              <ul>
+                                   <li>Login with QR Code or link.</li>
+                                   <li>Tap on the spinning wheel.</li>
+                                   <li>For mobile: IMEI number</li>
+                                   <li>Get success on verified confirmation</li>
+                                   <li>Get lucky draw result immediately after spinning the wheel</li>
+                              </ul>
+                         </div>
+                    </div>
+                    <div class="lc-block">
+                         <div editable="rich">
+
+                              <p class="title display-6 fw-bolder">Redemption Conditions</p>
+                              <ul>
+                                   <li>Make sure that your vivo devices has been activated, also get both warranty card
+                                        and
+                                        invoice
+                                        bill.</li>
+                                   <li>Contact your retailer to get the scheme.</li>
+                              </ul>
+                         </div>
+                    </div>
+                    <div class="lc-block">
+                         <div editable="rich">
+
+                              <p class="title display-6 fw-bolder">Terms & Conditions</p>
+
+
+                              <ul>
+                                   <li>All the vivo Devices purchased during the campaign date are applicable for the
+                                        contest.</li>
+                                   <li>This campaign starts from 5th December till the 31st December 2023.</li>
+                                   <li>The winner must claim the prize within 15 working days after the result is
+                                        published
+                                        or else
+                                        will be cancelled.</li>
+                                   <li>The winners will have to provide a copy of the citizenship/driving license or
+                                        passport
+                                        along
+                                        with verification documents such as the Warranty card or CMEI/DC/S.N. Code
+                                        verification for
+                                        claiming the gift.</li>
+                                   <li>Vivo Nepal reserves the right to cancel this offer if any suspicious activity is
+                                        found.</li>
+                                   <li>The company reserves the right to disqualify any user who does not meet the
+                                        criteria
+                                        in this
+                                        offer.</li>
+                                   <li>Vivo Nepal reserves the right to change the terms and condition of the scheme or
+                                        even
+                                        cancel it
+                                        without any prior notice.</li>
+                                   <li>Prizes won through this offer cannot be transferred or returned.</li>
+                              </ul>
+                         </div>
+                    </div>
+               </div>
+          </div>
+          <div id="secondd" class="d-none">
+               <div class="justify-content-center mx-auto d-flex">
+                    <img src="{% static 'logo.png' %}" alt="vivo-logo" class="img-fluid" style="width: 200px;">
+               </div>
+               <div class="justify-content-center mx-auto d-flex">
+                    <img src="{% static 'carnival.png' %}" alt="carnival-logo" class="img-fluid" style="height: 180px;">
+               </div>
                <div class="caption">
-                    <div class="form container mt-5rem">
+                    <div class="form container mt-5">
                          <div class="card" style="max-width: 80rem">
                               <div class="card-body bg-light rounded-2 p-2 p-md-4 px-4">
                                    <h3 class="btn btn btn-mine text-white poss text-center">Please fill up the form
@@ -38,7 +207,7 @@
                                                        name="customer_name" required />
                                              </div>
 
-                                             <!-- contact number -->
+
                                              <div class="mb-3 col">
                                                   <label for="contactNumber" class="form-label">Contact number<span
                                                             class="text-danger">*</span></label>
@@ -46,7 +215,7 @@
                                                        name="phone_number" required />
                                              </div>
 
-                                             <!-- shop name -->
+
                                              <div class="mb-3 col">
                                                   <label for="shopName" class="form-label">Shop name<span
                                                             class="text-danger">*</span></label>
@@ -54,7 +223,7 @@
                                                        required />
                                              </div>
 
-                                             <!-- sold area -->
+
                                              <div class="mb-3 col">
                                                   <label for="area" class="form-label">Sold area<span
                                                             class="text-danger">*</span></label>
@@ -65,10 +234,23 @@
                                              <div class="mb-3 col">
                                                   <label for="phoneModel" class="form-label">Phone model<span
                                                             class="text-danger">*</span></label>
-                                                  <input type="text" class="form-control" id="phoneModel"
-                                                       name="phone_model" required />
+                                                  <select name="phone_model" id="phoneModel">
+                                                       <!-- vivo phone models -->
+                                                       <option value="Y1s">Y1s</option>
+                                                       <option value="Y12s">Y12s</option>
+                                                       <option value="Y20s">Y20s</option>
+                                                       <option value="V21e">V21e</option>
+                                                       <option value="Y53s">Y53s</option>
+                                                       <option value="Y21">Y21</option>
+                                                       <option value="Y15s">Y15s</option>
+                                                       <option value="Y15c">Y15c</option>
+                                                       <option value="Y27s">Y27s</option>
+                                                       <option value="V23e">V23e</option>
+                                                       <option value="V23 5G">V23 5G</option>
+                                                       <option value="V21 5G">V21 5G</option>
+                                                  </select>
                                              </div>
-                                             <!-- imei number -->
+
                                              <div class="mb-3 col">
                                                   <label for="imeiNumber" class="form-label">IMEI number<span
                                                             class="text-danger">*</span> </label>
@@ -76,7 +258,7 @@
                                                        name="imei_number" required />
                                              </div>
 
-                                             <!-- about campaign -->
+
                                              <div class="mb-3 col">
                                                   <label for="aboutCampaign" class="mb-2">How you know about
                                                        campaign
@@ -112,7 +294,7 @@
                                              </div>
                                         </div>
 
-                                        <!-- submit button -->
+
                                         <div class="d-flex justify-content-center pb-5 pt-3">
                                              <input type="submit" class="btn btn-success btn-lg w-50"
                                                   value="Submit"></input>
@@ -123,6 +305,15 @@
                     </div>
                </div>
           </div>
+          <script>
+               const first = document.getElementById('firstt');
+               const second = document.getElementById('secondd');
+               const participate = document.getElementById('participate');
+               participate.addEventListener('click', () => {
+                    first.classList.add('d-none');
+                    second.classList.remove('d-none');
+               })
+          </script>
           <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
                crossorigin="anonymous"></script>
