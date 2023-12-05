@@ -547,7 +547,7 @@ def registerCustomer(request):
 
             for offer in weekly_offer:
                 #also check first letter of phone_model if its Y or V
-                c1= offer.validto[0]
+                c1 = offer.validto[0]
                 if ((get_sale_count + 1) in offer.sale_numbers) and (offer.quantity > 0) and (c1 == phone_model[0]):
                     qty = offer.quantity
                     customer.gift = offer.gift
@@ -559,6 +559,7 @@ def registerCustomer(request):
 
         if not gift_assigned:
             for offer in Offers.objects.filter(end_date__gte=today_date):
+                c1 = offer.validto[0]
                 if offer.type_of_offer == "After every certain sale":
                     if (((get_sale_count + 1) % int(offer.offer_condition_value) == 0)) and (offer.quantity > 0)  and (c1 == phone_model[0]):
                         qty = offer.quantity
