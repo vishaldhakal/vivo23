@@ -45,6 +45,7 @@ class Gift(models.Model):
 
 class IMEINO(models.Model):
     imei_no = models.CharField(max_length=400)
+    model = models.CharField(max_length=400,blank=True)
     used = models.BooleanField(default=False)
 
     def __str__(self):

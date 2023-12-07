@@ -96,9 +96,12 @@ def uploadIMEInos(request):
         for line in lines:
             line = line.strip()
             if line:
+                imei, phone_model = line.split(',')
+                imei = imei.strip()
+                phone_model = phone_model.strip()
                 # Validate IMEI format (15 digits)
                 if len(line) == 15 and line.isdigit():
-                    imei_objects.append(IMEINO(imei_no=line))
+                    imei_objects.append(IMEINO(imei_no=line,phone_model=phone_model))
                 else:
                     ctx = {'error': f'Invalid IMEI format: {line}'}
                     return render(request, 'index.html', ctx)
