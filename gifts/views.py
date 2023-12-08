@@ -449,7 +449,7 @@ def registerCustomer(request):
         
         imei_number = request.POST["imei_number"]
         how_know_about_campaign = request.POST["how_know_about_campaign"]
-        provider = request.POST["provider"]
+        """ provider = request.POST["provider"] """
 
         if Customer.objects.filter(imei=imei_number).exists():
             cust = Customer.objects.get(imei=imei_number)
@@ -554,62 +554,70 @@ def registerCustomer(request):
 
             for offer in weekly_offer:
                 #also check first letter of phone_model if its Y or V
-                """ c1 = offer.validto[0] """
+                c1 = offer.validto[0]
+                c2 = offer.validto
                 if ((get_sale_count + 1) in offer.sale_numbers) and (offer.quantity > 0) and phone_model!="Y17s(6+128G)_EX":
-                    qty = offer.quantity
-                    customer.gift = offer.gift
-                    customer.save()
-                    offer.quantity = qty - 1
-                    offer.save()
-                    gift_assigned = True
-                    break
+                    if phone_model[0] == c1 or c2 == "All":
+                        qty = offer.quantity
+                        customer.gift = offer.gift
+                        customer.save()
+                        offer.quantity = qty - 1
+                        offer.save()
+                        gift_assigned = True
+                        break
 
         if not gift_assigned:
             for offer in Offers.objects.filter(end_date__gte=today_date):
-                """ c1 = offer.validto[0] """
+                c1 = offer.validto[0]
+                c2 = offer.validto
                 if offer.type_of_offer == "After every certain sale":
                     if (((get_sale_count + 1) % int(offer.offer_condition_value) == 0)) and (offer.quantity > 0)  and phone_model!="Y17s(6+128G)_EX":
-                        qty = offer.quantity
-                        customer.gift = offer.gift
-                        customer.save()
-                        offer.quantity = qty - 1
-                        offer.save()
-                        gift_assigned = True
-                        break
+                        if phone_model[0] == c1 or c2 == "All":
+                            qty = offer.quantity
+                            customer.gift = offer.gift
+                            customer.save()
+                            offer.quantity = qty - 1
+                            offer.save()
+                            gift_assigned = True
+                            break
                 if offer.type_of_offer == "At certain sale position":
                     if ((get_sale_count + 1) == int(offer.offer_condition_value)) and (offer.quantity > 0)  and phone_model!="Y17s(6+128G)_EX":
-                        qty = offer.quantity
-                        customer.gift = offer.gift
-                        customer.save()
-                        offer.quantity = qty - 1
-                        offer.save()
-                        gift_assigned = True
-                        break
+                        if phone_model[0] == c1 or c2 == "All":
+                            qty = offer.quantity
+                            customer.gift = offer.gift
+                            customer.save()
+                            offer.quantity = qty - 1
+                            offer.save()
+                            gift_assigned = True
+                            break
 
         if not gift_assigned:
-            #nor for  and phone_model!="Y17s(6+128G)_EX" only
             for offer in Offers.objects.filter(end_date__gte=today_date,gift__name="Water Bottle"):
+                c1 = offer.validto[0]
+                c2 = offer.validto
                 if offer.type_of_offer == "After certain sale numbers":
-                    if ((get_sale_count + 1) in offer.sale_numbers) and (offer.quantity > 0):
-                        qty = offer.quantity
-                        customer.gift = offer.gift
-                        customer.save()
-                        offer.quantity = qty - 1
-                        offer.save()
-                        gift_assigned = True
-                        break
+                    if ((get_sale_count + 1) in offer.sale_numbers) and (offer.quantity > 0) and phone_model=="Y17s(6+128G)_EX":
+                        if phone_model[0] == c1 or c2 == "All":
+                            qty = offer.quantity
+                            customer.gift = offer.gift
+                            customer.save()
+                            offer.quantity = qty - 1
+                            offer.save()
+                            gift_assigned = True
+                            break
                 
                 if offer.type_of_offer == "After every certain sale":
-                    if (((get_sale_count + 1) % int(offer.offer_condition_value) == 0)) and (offer.quantity > 0):
-                        qty = offer.quantity
-                        customer.gift = offer.gift
-                        customer.save()
-                        offer.quantity = qty - 1
-                        offer.save()
-                        gift_assigned = True
-                        break
+                    if (((get_sale_count + 1) % int(offer.offer_condition_value) == 0)) and (offer.quantity > 0) and phone_model=="Y17s(6+128G)_EX":
+                        if phone_model[0] == c1 or c2 == "All":
+                            qty = offer.quantity
+                            customer.gift = offer.gift
+                            customer.save()
+                            offer.quantity = qty - 1
+                            offer.save()
+                            gift_assigned = True
+                            break
 
-        if not gift_assigned:
+        """ if not gift_assigned:
             # Check for Recharge Card offers
             recharge_card_offers = RechargeCardOffer.objects.filter(
                 start_date__lte=today_date, end_date__gte=today_date,provider=provider).order_by('-amount')
@@ -655,7 +663,7 @@ def registerCustomer(request):
                             customer.amount_of_card = recharge_card_offer.amount
                             customer.ntc_recharge_card = True
                             customer.save()
-                        break
+                        break """
                             
         return render(request, "output.html", {"customer": customer, "gift_assigned": gift_assigned,"recharge_card": recharge_cardd, "recharge_card_assigned": recharge_card_assigned,"ntc_recharge_card_assigned": ntc_recharge_card_assigned })
     else:
