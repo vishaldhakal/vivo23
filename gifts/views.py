@@ -556,7 +556,7 @@ def registerCustomer(request):
                 #also check first letter of phone_model if its Y or V
                 c1 = offer.validto[0]
                 c2 = offer.validto
-                if ((get_sale_count + 1) in offer.sale_numbers) and (offer.quantity > 0) and phone_model!="Y17s(6+128G)_EX":
+                if ((get_sale_count + 1) in offer.sale_numbers) and (offer.quantity > 0) and phone_model!="Y27s(8+256G)_EX":
                     if phone_model[0] == c1 or c2 == "All":
                         qty = offer.quantity
                         customer.gift = offer.gift
@@ -571,7 +571,7 @@ def registerCustomer(request):
                 c1 = offer.validto[0]
                 c2 = offer.validto
                 if offer.type_of_offer == "After every certain sale":
-                    if (((get_sale_count + 1) % int(offer.offer_condition_value) == 0)) and (offer.quantity > 0)  and phone_model!="Y17s(6+128G)_EX":
+                    if (((get_sale_count + 1) % int(offer.offer_condition_value) == 0)) and (offer.quantity > 0)  and phone_model!="Y27s(8+256G)_EX":
                         if phone_model[0] == c1 or c2 == "All":
                             qty = offer.quantity
                             customer.gift = offer.gift
@@ -581,33 +581,7 @@ def registerCustomer(request):
                             gift_assigned = True
                             break
                 if offer.type_of_offer == "At certain sale position":
-                    if ((get_sale_count + 1) == int(offer.offer_condition_value)) and (offer.quantity > 0)  and phone_model!="Y17s(6+128G)_EX":
-                        if phone_model[0] == c1 or c2 == "All":
-                            qty = offer.quantity
-                            customer.gift = offer.gift
-                            customer.save()
-                            offer.quantity = qty - 1
-                            offer.save()
-                            gift_assigned = True
-                            break
-
-        if not gift_assigned:
-            for offer in Offers.objects.filter(end_date__gte=today_date,gift__name="Water Bottle"):
-                c1 = offer.validto[0]
-                c2 = offer.validto
-                if offer.type_of_offer == "After certain sale numbers":
-                    if ((get_sale_count + 1) in offer.sale_numbers) and (offer.quantity > 0) and phone_model=="Y17s(6+128G)_EX":
-                        if phone_model[0] == c1 or c2 == "All":
-                            qty = offer.quantity
-                            customer.gift = offer.gift
-                            customer.save()
-                            offer.quantity = qty - 1
-                            offer.save()
-                            gift_assigned = True
-                            break
-                
-                if offer.type_of_offer == "After every certain sale":
-                    if (((get_sale_count + 1) % int(offer.offer_condition_value) == 0)) and (offer.quantity > 0) and phone_model=="Y17s(6+128G)_EX":
+                    if ((get_sale_count + 1) == int(offer.offer_condition_value)) and (offer.quantity > 0)  and phone_model!="Y27s(8+256G)_EX":
                         if phone_model[0] == c1 or c2 == "All":
                             qty = offer.quantity
                             customer.gift = offer.gift
