@@ -644,6 +644,14 @@ def registerCustomer(request):
         return redirect('indexWithError')
     
 
+def redoImei(request):
+    custs = Customer.objects.all()
+    for cust in custs:
+        imeii = IMEINO.objects.get(imei_no=cust.imei)
+        cust.phone_model = imeii.phone_model
+        cust.save()
+
+
 def convallrec(request):
     custt = Customer.objects.filter(recharge_card__isnull=False)
     for cus in custt:

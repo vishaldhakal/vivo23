@@ -1,7 +1,7 @@
 from django import views
 from django.contrib import admin
 from django.urls import path
-from .views import customer_dashboard,getNcellUnUsed, removeDublicateImeis,convallrec,getAllImeis,getNcellUsed,customerlists,getNcell500Used,removerec,getNcell500, download_customers_with_gifts, download_customers_without_gifts, home, index, dashboard, upload_recharge_cards,uploadIMEI, registerCustomer,deleteAllImeis,adminIndex,uploadIMEInos,indexWithError,downloadData,downloadDataToday,downloadDataYesterday,reuseIMEI,exportSummary
+from .views import customer_dashboard,redoImei,getNcellUnUsed, removeDublicateImeis,convallrec,getAllImeis,getNcellUsed,customerlists,getNcell500Used,removerec,getNcell500, download_customers_with_gifts, download_customers_without_gifts, home, index, dashboard, upload_recharge_cards,uploadIMEI, registerCustomer,deleteAllImeis,adminIndex,uploadIMEInos,indexWithError,downloadData,downloadDataToday,downloadDataYesterday,reuseIMEI,exportSummary
 
 urlpatterns = [
     path('', index,name='index'),
@@ -25,6 +25,7 @@ urlpatterns = [
     path('output/', registerCustomer,name = 'register_customer'),
     path('export/', downloadData,name = 'down'),
     path('reuseimei/<str>/', reuseIMEI,name = 'reuseIMEI'),
+    path('redoimei/', redoImei,name = 'redoImei'),
     path('export-today/', downloadDataToday,name = 'down-today'),
     path('export-summary/', exportSummary,name = 'exportSummary'),
     path('recc/', convallrec,name = 'convallrec'),
