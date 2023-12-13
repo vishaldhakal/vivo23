@@ -540,10 +540,11 @@ def registerCustomer(request):
                 offers = Offers.objects.filter(start_date__lte=today_date, end_date__gte=today_date, type_of_offer="Y27s Offer")
                 for off in offers:
                     if (off.quantity > 0):
+                        qty = offer.quantity
                         customer.gift = off.gift
                         customer.save()
                         gift_assigned = True
-                        off.quantity = 0
+                        off.quantity = qty - 1
                         off.save()
                         break
 
