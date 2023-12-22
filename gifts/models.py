@@ -67,6 +67,7 @@ class Offers(models.Model):
         ("At certain sale position", "At certain sale position"),
         ("Weekly Offer", "Weekly Offer"),
         ("Y27s Offer", "Y27s Offer"),
+        ("VTop Offer", "VTop Offer"),
     ]
     
     VALID_CHOICES = [
