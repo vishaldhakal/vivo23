@@ -549,7 +549,7 @@ def registerCustomer(request):
                         break
         
         if not gift_assigned:
-            if phone_model == "V29e(8+128G)_EX" or phone_model == "V29 5G(12+256G)_EX" or phone_model=="Y36(8+256G)_EX":
+            if phone_model == "V29e(8+128G)_EX" or phone_model == "V29 5G(12+256G)_EX" or phone_model=="Y36(8+256G)_EX" or phone_model=="V29e 5G(8+256G)_EX":
                 offers = Offers.objects.filter(start_date__lte=today_date, end_date__gte=today_date, type_of_offer="VTop Offer")
                 for off in offers:
                     if (off.quantity > 0):
