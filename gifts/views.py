@@ -447,11 +447,11 @@ def registerCustomer(request):
         profession = request.POST.get("profession","None")
         sold_area = request.POST["sold_area"]
         just_passed_see = request.POST.get("flexRadioDefault","No")
-        see_admit_card = request.FILES.get("see_admit_card", None)
+        see_admit_card = request.FILES["see_admit_card"]
 
         if just_passed_see:
             if see_admit_card==None:
-                request.session['error_message'] = "Please upload the admit card image."
+                request.session['error_message'] = "Please upload the admit card image."+see_admit_card
                 return redirect('index')
         
         imei_number = request.POST["imei_number"]
