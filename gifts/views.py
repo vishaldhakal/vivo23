@@ -449,7 +449,7 @@ def registerCustomer(request):
         just_passed_see = request.POST.get("flexRadioDefault","No")
         see_admit_card = request.FILES["see_admit_card"]
 
-        if just_passed_see:
+        if just_passed_see == "Yes":
             if see_admit_card==None:
                 request.session['error_message'] = "Please upload the admit card image."+see_admit_card
                 return redirect('index')
