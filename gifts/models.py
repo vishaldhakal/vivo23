@@ -66,7 +66,7 @@ class Offers(models.Model):
         ("After every certain sale", "After every certain sale"),
         ("At certain sale position", "At certain sale position"),
         ("Weekly Offer", "Weekly Offer"),
-        ("Y27s Offer", "Y27s Offer"),
+        ("V30 Offer", "V30 Offer"),
         ("VTop Offer", "VTop Offer"),
     ]
     
@@ -152,6 +152,8 @@ class Customer(models.Model):
 
     customer_name = models.CharField(max_length=400)
     shop_name = models.TextField()
+    just_passed_see = models.BooleanField(default=False)
+    see_admit_card = models.Field(null=True, blank=True)
     sold_area = models.CharField(max_length=800)
     phone_number = models.CharField(max_length=400)
     phone_model = models.CharField(max_length=400)

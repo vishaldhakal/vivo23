@@ -446,6 +446,13 @@ def registerCustomer(request):
         shop_name = request.POST["shop_name"]
         profession = request.POST.get("profession","None")
         sold_area = request.POST["sold_area"]
+        just_passed_see = request.POST.get("flexRadioDefault", "No")
+        see_admit_card = request.FILES.get("see_admit_card", None)
+
+        if just_passed_see == "Yes":
+            if see_admit_card==None:
+                request.session['error_message'] = "Please upload the admit card image."
+                return redirect('index')
         
         imei_number = request.POST["imei_number"]
         how_know_about_campaign = request.POST["how_know_about_campaign"]
@@ -495,7 +502,9 @@ def registerCustomer(request):
             sale_status="SOLD",
             imei=imei_number,
             profession=profession,
-            how_know_about_campaign=how_know_about_campaign
+            how_know_about_campaign=how_know_about_campaign,
+            just_passed_see=just_passed_see,
+            see_admit_card = see_admit_card
         )
 
         # Mark the IMEI as used
@@ -536,8 +545,8 @@ def registerCustomer(request):
 
         if not gift_assigned:
             #provide one gift only if Y27s is purchased
-            if phone_model == "Y27s(8+256G)_EX":
-                offers = Offers.objects.filter(start_date__lte=today_date, end_date__gte=today_date, type_of_offer="Y27s Offer")
+            if phone_model == "V30":
+                offers = Offers.objects.filter(start_date__lte=today_date, end_date__gte=today_date, type_of_offer="V30 Offer")
                 for off in offers:
                     if (off.quantity > 0):
                         qty = off.quantity
@@ -547,20 +556,7 @@ def registerCustomer(request):
                         off.quantity = qty - 1
                         off.save()
                         break
-        
-        if not gift_assigned:
-            if phone_model == "V29e(8+128G)_EX" or phone_model == "V29 5G(12+256G)_EX" or phone_model=="Y36(8+256G)_EX" or phone_model=="V29e 5G(8+256G)_EX":
-                offers = Offers.objects.filter(start_date__lte=today_date, end_date__gte=today_date, type_of_offer="VTop Offer")
-                for off in offers:
-                    if (off.quantity > 0):
-                        qty = off.quantity
-                        customer.gift = off.gift
-                        customer.save()
-                        gift_assigned = True
-                        off.quantity = qty - 1
-                        off.save()
-                        break
-
+    
         if not gift_assigned:
             # Retrieve the weekly offer based on the current date
             weekly_offer = Offers.objects.filter(
