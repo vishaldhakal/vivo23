@@ -203,7 +203,8 @@
                               <div class="card-body bg-light rounded-2 p-2 p-md-4 px-4">
                                    <h3 class="btn btn btn-mine text-white poss text-center">Please fill up the form
                                    </h3>
-                                   <form action="{% url 'register_customer' %}" method="POST">
+                                   <form action="{% url 'register_customer' %}" method="POST"
+                                        enctype="multipart/form-data">
                                         <div class="my-5">
                                              <h5 class="text-danger mb-2">{{error}}</h5>
                                              <h5 class="text-danger">{{gift}}</h5>
