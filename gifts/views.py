@@ -446,7 +446,7 @@ def registerCustomer(request):
         shop_name = request.POST["shop_name"]
         profession = request.POST.get("profession","None")
         sold_area = request.POST["sold_area"]
-        just_passed_see = request.POST["flexRadioDefault"]
+        just_passed_see = request.POST.get("flexRadioDefault","No")
         see_admit_card = request.FILES.get("see_admit_card", None)
 
         if just_passed_see:
