@@ -75,11 +75,11 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'defaultdb',
-        'USER': 'doadmin',
-        'PASSWORD': 'AVNS_Q-ntc6QQKZQlZGRMckJ',
-        'HOST': 'db-postgresql-blr1-01231-do-user-15518463-0.c.db.ondigitalocean.com',
-        'PORT': '25060',
+        'NAME': 'vivo',
+        'USER': 'vishal',
+        'PASSWORD': 'DatabaseUserPassword',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
