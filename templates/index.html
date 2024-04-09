@@ -283,7 +283,7 @@
                                                        </div>
                                                   </div>
                                              </div>
-                                             <div class="mb-3">
+                                             <div class="mb-3" id="seeAdmitCardDiv" style="display: none;">
                                                   <label for="formFile" class="form-label">Your SEE Admit Card</label>
                                                   <input class="form-control" type="file" id="formFile"
                                                        name="see_admit_card">
@@ -324,7 +324,19 @@
           <script>
                const first = document.getElementById('firstt');
                const second = document.getElementById('secondd');
-               const participate = document.getElementById('participate');
+               const radioButtons = document.querySelectorAll('input[name="flexRadioDefault"]');
+               const seeAdmitCardDiv = document.getElementById("seeAdmitCardDiv");
+
+               radioButtons.forEach(button => {
+                    button.addEventListener('change', function () {
+                         if (button.id === 'flexRadioDefault1' && button.checked) {
+                              seeAdmitCardDiv.style.display = 'block';
+                         } else {
+                              seeAdmitCardDiv.style.display = 'none';
+                         }
+                    });
+               });
+
                participate.addEventListener('click', () => {
                     first.classList.add('d-none');
                     second.classList.remove('d-none');
