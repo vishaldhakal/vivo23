@@ -446,10 +446,10 @@ def registerCustomer(request):
         shop_name = request.POST["shop_name"]
         profession = request.POST.get("profession","None")
         sold_area = request.POST["sold_area"]
-        just_passed_see = request.POST.get("flexRadioDefault", False)
+        just_passed_see = request.POST.get["flexRadioDefault"]
         see_admit_card = request.FILES.get("see_admit_card", None)
 
-        if just_passed_see == True:
+        if just_passed_see:
             if see_admit_card==None:
                 request.session['error_message'] = "Please upload the admit card image."
                 return redirect('index')
