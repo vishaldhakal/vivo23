@@ -545,7 +545,7 @@ def registerCustomer(request):
 
         if not gift_assigned:
             #provide one gift only if Y27s is purchased
-            if phone_model == "V30":
+            if phone_model == "V30 5G(12+256G)_EX":
                 offers = Offers.objects.filter(start_date__lte=today_date, end_date__gte=today_date, type_of_offer="V30 Offer")
                 for off in offers:
                     if (off.quantity > 0):
