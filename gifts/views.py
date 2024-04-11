@@ -546,16 +546,33 @@ def registerCustomer(request):
         if not gift_assigned:
             #provide one gift only if Y27s is purchased
             if phone_model == "V30 5G(12+256G)_EX":
-                offers = Offers.objects.filter(start_date__lte=today_date, end_date__gte=today_date, type_of_offer="V30 Offer")
-                for off in offers:
-                    if (off.quantity > 0):
-                        qty = off.quantity
-                        customer.gift = off.gift
-                        customer.save()
-                        gift_assigned = True
-                        off.quantity = qty - 1
-                        off.save()
-                        break
+                disneytws = Gift.objects.get(name="Disney TWS")
+                vivotws = Gift.objects.get(name="Vivo TWS")
+                allgiftstoday = Customer.objects.filter(date_of_purchase=today_date,gift=disneytws)
+                allgiftstoday2 = Customer.objects.filter(date_of_purchase=today_date,gift=vivotws)
+
+                if allgiftstoday.count() <= (allgiftstoday2.count()*2):
+                    offers = Offers.objects.filter(start_date__lte=today_date, end_date__gte=today_date, type_of_offer="V30 Offer",gift=disneytws)
+                    for off in offers:
+                        if (off.quantity > 0):
+                            qty = off.quantity
+                            customer.gift = off.gift
+                            customer.save()
+                            gift_assigned = True
+                            off.quantity = qty - 1
+                            off.save()
+                            break
+                else:
+                    offers = Offers.objects.filter(start_date__lte=today_date, end_date__gte=today_date, type_of_offer="V30 Offer",gift=vivotws)
+                    for off in offers:
+                        if (off.quantity > 0):
+                            qty = off.quantity
+                            customer.gift = off.gift
+                            customer.save()
+                            gift_assigned = True
+                            off.quantity = qty - 1
+                            off.save()
+                            break
     
         if not gift_assigned:
             # Retrieve the weekly offer based on the current date
