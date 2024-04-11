@@ -388,15 +388,15 @@ def downloadDataYesterday(request):
 
     writer = csv.writer(response)
     writer.writerow(['customer_name', 'shop_name', 'sold_area', 'phone_number',
-                    'phone_model', 'gift', 'imei', 'date_of_purchase', 'how_know_about_campaign', 'ntc_recharge_card', 'amount_of_ntc','profession','ncell_recharge_card'])
+                    'phone_model', 'gift', 'imei', 'date_of_purchase', 'how_know_about_campaign','profession','just_see_passed'])
 
     for user in users:
         if user.gift:
             writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
-                            user.phone_model, user.gift.name, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.ntc_recharge_card, user.amount_of_card,user.profession,user.recharge_card])
+                            user.phone_model, user.gift.name, user.imei, user.date_of_purchase, user.how_know_about_campaign,user.profession,user.just_passed_see])
         else:
             writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
-                            user.phone_model, user.gift, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.ntc_recharge_card, user.amount_of_card,user.profession,user.recharge_card])
+                            user.phone_model, user.gift, user.imei, user.date_of_purchase, user.how_know_about_campaign,user.profession,user.just_passed_see])
     return response
 
 def getNcell500(request):
