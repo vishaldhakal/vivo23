@@ -17,7 +17,7 @@ CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'https://vivocarnival.com','htt
 
 # Application definition
 INSTALLED_APPS = [
-    'unfold',
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -130,7 +130,3 @@ CORS_ORIGIN_ALLOW_ALL = True
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-UNFOLD = {
-   "THEME":'light',
-}
