@@ -583,7 +583,7 @@ def registerCustomer(request):
                 #also check first letter of phone_model if its Y or V
                 c1 = offer.validto[0]
                 c2 = offer.validto
-                if ((get_sale_count + 1) in offer.sale_numbers) and (offer.quantity > 0) and (phone_model!="Y27s(8+256G)_EX"):
+                if ((get_sale_count + 1) in offer.sale_numbers) and (offer.quantity > 0):
                     if phone_model[0] == c1 or c2 == "All":
                         qty = offer.quantity
                         customer.gift = offer.gift
@@ -598,7 +598,7 @@ def registerCustomer(request):
                 c1 = offer.validto[0]
                 c2 = offer.validto
                 if offer.type_of_offer == "After every certain sale":
-                    if (((get_sale_count + 1) % int(offer.offer_condition_value) == 0)) and (offer.quantity > 0)  and (phone_model!="Y27s(8+256G)_EX"):
+                    if (((get_sale_count + 1) % int(offer.offer_condition_value) == 0)) and (offer.quantity > 0) :
                         if phone_model[0] == c1 or c2 == "All":
                             qty = offer.quantity
                             customer.gift = offer.gift
@@ -608,7 +608,7 @@ def registerCustomer(request):
                             gift_assigned = True
                             break
                 if offer.type_of_offer == "At certain sale position":
-                    if ((get_sale_count + 1) == int(offer.offer_condition_value)) and ((offer.quantity > 0))  and (phone_model!="Y27s(8+256G)_EX"):
+                    if ((get_sale_count + 1) == int(offer.offer_condition_value)) and ((offer.quantity > 0)):
                         if phone_model[0] == c1 or c2 == "All":
                             qty = offer.quantity
                             customer.gift = offer.gift
