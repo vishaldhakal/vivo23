@@ -1,20 +1,25 @@
 from django.contrib import admin
 from .models import Customer, Gift, MobilePhone, Offers, Sales, IMEINO, FixOffer, MobilePhone, RechargeCard, RechargeCardOffer
+from unfold.admin import ModelAdmin
 
 
-admin.site.register(Gift)
-admin.site.register(Sales)
-admin.site.register(Offers)
-admin.site.register(IMEINO)
-admin.site.register(FixOffer)
-admin.site.register(MobilePhone)
-admin.site.register(RechargeCard)
-admin.site.register(RechargeCardOffer)
+
+class CustomAdminClass(ModelAdmin):
+    pass
+
+admin.site.register(Gift, CustomAdminClass)
+admin.site.register(Sales, ModelAdmin)
+admin.site.register(Offers, ModelAdmin)
+admin.site.register(IMEINO, ModelAdmin)
+admin.site.register(FixOffer, ModelAdmin)
+admin.site.register(MobilePhone, ModelAdmin)
+admin.site.register(RechargeCard, ModelAdmin)
+admin.site.register(RechargeCardOffer, ModelAdmin)
 
 
 
 @admin.register(Customer)
-class CustomerAdmin(admin.ModelAdmin):
+class CustomerAdmin(ModelAdmin):
     list_display = (
         "customer_name",
         "shop_name",
