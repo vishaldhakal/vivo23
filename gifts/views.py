@@ -369,11 +369,19 @@ def downloadDataToday(request):
 
     for user in users:
         if user.gift:
-            writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
-                            user.phone_model, user.gift.name, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.profession,user.just_passed_see,"https://vivooffers.com/media"+str(user.see_admit_card)])
+            if user.just_passed_see:
+                writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
+                                user.phone_model, user.gift.name, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.profession,user.just_passed_see,"https://vivooffers.com/media/"+str(user.see_admit_card)])
+            else:
+                writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
+                                user.phone_model, user.gift.name, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.profession,user.just_passed_see])
         else:
-            writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
-                            user.phone_model, user.gift, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.profession,user.just_passed_see,"https://vivooffers.com/media"+str(user.see_admit_card)])
+            if user.just_passed_see:
+                writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
+                                user.phone_model, user.gift, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.profession,user.just_passed_see,"https://vivooffers.com/media/"+str(user.see_admit_card)])
+            else:
+                writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
+                                user.phone_model, user.gift, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.profession,user.just_passed_see])
     return response
 
 
