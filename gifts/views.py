@@ -365,15 +365,15 @@ def downloadDataToday(request):
 
     writer = csv.writer(response)
     writer.writerow(['customer_name', 'shop_name', 'sold_area', 'phone_number',
-                    'phone_model', 'gift', 'imei', 'date_of_purchase', 'how_know_about_campaign','profession','just_passed_see'])
+                    'phone_model', 'gift', 'imei', 'date_of_purchase', 'how_know_about_campaign','profession','just_passed_see','see_admit_card'])
 
     for user in users:
         if user.gift:
             writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
-                            user.phone_model, user.gift.name, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.profession,user.just_passed_see])
+                            user.phone_model, user.gift.name, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.profession,user.just_passed_see,"https://vivooffers.com/media"+str(user.see_admit_card)])
         else:
             writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
-                            user.phone_model, user.gift, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.profession,user.just_passed_see])
+                            user.phone_model, user.gift, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.profession,user.just_passed_see,"https://vivooffers.com/media"+str(user.see_admit_card)])
     return response
 
 
