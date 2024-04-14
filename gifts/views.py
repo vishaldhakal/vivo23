@@ -306,11 +306,19 @@ def downloadData(request):
 
     for user in users:
         if user.gift:
-            writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
-                            user.phone_model, user.gift.name, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.ntc_recharge_card, user.amount_of_card,user.profession,user.recharge_card])
+            if user.just_passed_see:
+                writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
+                                user.phone_model, user.gift.name, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.profession,user.just_passed_see,"https://vivooffers.com/media/"+str(user.see_admit_card)])
+            else:
+                writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
+                                user.phone_model, user.gift.name, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.profession,user.just_passed_see])
         else:
-            writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
-                            user.phone_model, user.gift, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.ntc_recharge_card, user.amount_of_card,user.profession,user.recharge_card])
+            if user.just_passed_see:
+                writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
+                                user.phone_model, user.gift, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.profession,user.just_passed_see,"https://vivooffers.com/media/"+str(user.see_admit_card)])
+            else:
+                writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
+                                user.phone_model, user.gift, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.profession,user.just_passed_see])
     return response
 
 
@@ -400,11 +408,19 @@ def downloadDataYesterday(request):
 
     for user in users:
         if user.gift:
-            writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
-                            user.phone_model, user.gift.name, user.imei, user.date_of_purchase, user.how_know_about_campaign,user.profession,user.just_passed_see])
+            if user.just_passed_see:
+                writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
+                                user.phone_model, user.gift.name, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.profession,user.just_passed_see,"https://vivooffers.com/media/"+str(user.see_admit_card)])
+            else:
+                writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
+                                user.phone_model, user.gift.name, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.profession,user.just_passed_see])
         else:
-            writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
-                            user.phone_model, user.gift, user.imei, user.date_of_purchase, user.how_know_about_campaign,user.profession,user.just_passed_see])
+            if user.just_passed_see:
+                writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
+                                user.phone_model, user.gift, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.profession,user.just_passed_see,"https://vivooffers.com/media/"+str(user.see_admit_card)])
+            else:
+                writer.writerow([user.customer_name, user.shop_name, user.sold_area, user.phone_number,
+                                user.phone_model, user.gift, user.imei, user.date_of_purchase, user.how_know_about_campaign, user.profession,user.just_passed_see])
     return response
 
 def getNcell500(request):
@@ -457,9 +473,9 @@ def registerCustomer(request):
         just_passed_see = request.POST.get("flexRadioDefault",False)
         see_admit_card = request.FILES.get("see_admit_card")
 
-        if just_passed_see == True:
-            if not see_admit_card:
-                request.session['error_message'] = "Please upload the admit card image."+see_admit_card
+        if just_passed_see == "True":
+            if see_admit_card == None:
+                request.session['error_message'] = "Please upload the admit card image."
                 return redirect('index')
         
         imei_number = request.POST["imei_number"]
