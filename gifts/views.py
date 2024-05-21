@@ -470,13 +470,13 @@ def registerCustomer(request):
         shop_name = request.POST["shop_name"]
         profession = request.POST.get("profession","None")
         sold_area = request.POST["sold_area"]
-        just_passed_see = request.POST.get("flexRadioDefault",False)
-        see_admit_card = request.FILES.get("see_admit_card")
+        """ just_passed_see = request.POST.get("flexRadioDefault",False) """
+        """ see_admit_card = request.FILES.get("see_admit_card") """
 
-        if just_passed_see == "True":
+        """ if just_passed_see == "True":
             if see_admit_card == None:
                 request.session['error_message'] = "Please upload the admit card image."
-                return redirect('index')
+                return redirect('index') """
         
         imei_number = request.POST["imei_number"]
         how_know_about_campaign = request.POST["how_know_about_campaign"]
@@ -508,7 +508,7 @@ def registerCustomer(request):
             if imei_number==str(imeei.imei_no):
                 imei_check=True
 
-        if(imei_check==False):
+        if not imei_check:
             request.session['error_message'] = "Invalid IMEI"
             return redirect('index')
         
@@ -527,8 +527,6 @@ def registerCustomer(request):
             imei=imei_number,
             profession=profession,
             how_know_about_campaign=how_know_about_campaign,
-            just_passed_see=just_passed_see,
-            see_admit_card = see_admit_card
         )
 
         # Mark the IMEI as used
