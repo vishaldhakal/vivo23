@@ -572,7 +572,7 @@ def registerCustomer(request):
                 start_date__lte=today_date, end_date__gte=today_date, type_of_offer="V30 Offer")
 
             for offer in weekly_offer:
-                if ((get_sale_count + 1) in offer.sale_numbers) and (offer.quantity > 0):
+                if offer.quantity > 0:
                     if phone_model == "V30 5G(12+256G)_EX" or phone_model == "V30 Lite(8+256G)_EX":
                         qty = offer.quantity
                         customer.gift = offer.gift
@@ -588,7 +588,7 @@ def registerCustomer(request):
                 start_date__lte=today_date, end_date__gte=today_date, type_of_offer="Y27s Offer")
 
             for offer in weekly_offer:
-                if ((get_sale_count + 1) in offer.sale_numbers) and (offer.quantity > 0):
+                if offer.quantity > 0:
                     if phone_model == "Y27s(8+256G)_EX":
                         qty = offer.quantity
                         customer.gift = offer.gift
