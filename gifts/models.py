@@ -67,6 +67,7 @@ class Offers(models.Model):
         ("At certain sale position", "At certain sale position"),
         ("Weekly Offer", "Weekly Offer"),
         ("V30 Offer", "V30 Offer"),
+        ("Y27s Offer", "Y27s Offer"),
         ("VTop Offer", "VTop Offer"),
     ]
     

@@ -565,48 +565,31 @@ def registerCustomer(request):
                     off.save()
                     break
 
-        if not gift_assigned:
-            #provide one gift only if Y27s is purchased
-            if phone_model == "V30 5G(12+256G)_EX":
-                disneytws = Gift.objects.get(name="Disney TWS")
-                vivotws = Gift.objects.get(name="Vivo TWS")
-                allgiftstoday = Customer.objects.filter(date_of_purchase=today_date,gift=disneytws)
-                allgiftstoday2 = Customer.objects.filter(date_of_purchase=today_date,gift=vivotws)
-
-                if allgiftstoday.count() <= (allgiftstoday2.count()*2):
-                    offers = Offers.objects.filter(start_date__lte=today_date, end_date__gte=today_date, type_of_offer="V30 Offer",gift=disneytws)
-                    for off in offers:
-                        if (off.quantity > 0):
-                            qty = off.quantity
-                            customer.gift = off.gift
-                            customer.save()
-                            gift_assigned = True
-                            off.quantity = qty - 1
-                            off.save()
-                            break
-                else:
-                    offers = Offers.objects.filter(start_date__lte=today_date, end_date__gte=today_date, type_of_offer="V30 Offer",gift=vivotws)
-                    for off in offers:
-                        if (off.quantity > 0):
-                            qty = off.quantity
-                            customer.gift = off.gift
-                            customer.save()
-                            gift_assigned = True
-                            off.quantity = qty - 1
-                            off.save()
-                            break
     
         if not gift_assigned:
             # Retrieve the weekly offer based on the current date
             weekly_offer = Offers.objects.filter(
-                start_date__lte=today_date, end_date__gte=today_date, type_of_offer="Weekly Offer")
+                start_date__lte=today_date, end_date__gte=today_date, type_of_offer="V30 Offer")
 
             for offer in weekly_offer:
-                #also check first letter of phone_model if its Y or V
-                c1 = offer.validto[0]
-                c2 = offer.validto
                 if ((get_sale_count + 1) in offer.sale_numbers) and (offer.quantity > 0):
-                    if phone_model[0] == c1 or c2 == "All":
+                    if phone_model == "V30 5G(12+256G)_EX" or phone_model == "V30 Lite(8+256G)_EX":
+                        qty = offer.quantity
+                        customer.gift = offer.gift
+                        customer.save()
+                        offer.quantity = qty - 1
+                        offer.save()
+                        gift_assigned = True
+                        break
+        
+        if not gift_assigned:
+            # Retrieve the weekly offer based on the current date
+            weekly_offer = Offers.objects.filter(
+                start_date__lte=today_date, end_date__gte=today_date, type_of_offer="Y27s Offer")
+
+            for offer in weekly_offer:
+                if ((get_sale_count + 1) in offer.sale_numbers) and (offer.quantity > 0):
+                    if phone_model == "Y27s(8+256G)_EX":
                         qty = offer.quantity
                         customer.gift = offer.gift
                         customer.save()
@@ -615,7 +598,7 @@ def registerCustomer(request):
                         gift_assigned = True
                         break
 
-        if not gift_assigned:
+        """ if not gift_assigned:
             for offer in Offers.objects.filter(end_date__gte=today_date):
                 c1 = offer.validto[0]
                 c2 = offer.validto
@@ -638,7 +621,7 @@ def registerCustomer(request):
                             offer.quantity = qty - 1
                             offer.save()
                             gift_assigned = True
-                            break
+                            break """
 
         """ if not gift_assigned:
             # Check for Recharge Card offers
