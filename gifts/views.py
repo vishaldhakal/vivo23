@@ -566,7 +566,7 @@ def registerCustomer(request):
                     break
 
     
-        if not gift_assigned:
+        """ if not gift_assigned:
             # Retrieve the weekly offer based on the current date
             weekly_offer = Offers.objects.filter(
                 start_date__lte=today_date, end_date__gte=today_date, type_of_offer="V30 Offer")
@@ -596,9 +596,9 @@ def registerCustomer(request):
                         offer.quantity = qty - 1
                         offer.save()
                         gift_assigned = True
-                        break
+                        break """
 
-        """ if not gift_assigned:
+        if not gift_assigned:
             for offer in Offers.objects.filter(end_date__gte=today_date):
                 c1 = offer.validto[0]
                 c2 = offer.validto
@@ -621,7 +621,7 @@ def registerCustomer(request):
                             offer.quantity = qty - 1
                             offer.save()
                             gift_assigned = True
-                            break """
+                            break
 
         """ if not gift_assigned:
             # Check for Recharge Card offers
