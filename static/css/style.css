@@ -81,7 +81,7 @@ html {
 .caption {
   position: absolute;
   left: 0;
-  top: 18% !important;
+  top: 0% !important;
   width: 100%;
   text-align: center;
   color: #000;
