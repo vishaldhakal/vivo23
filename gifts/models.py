@@ -69,6 +69,7 @@ class Offers(models.Model):
         ("V30 Offer", "V30 Offer"),
         ("Y27s Offer", "Y27s Offer"),
         ("VTop Offer", "VTop Offer"),
+        ("Monthly Offer", "Monthly Offer"),
     ]
     
     VALID_CHOICES = [
@@ -80,10 +81,11 @@ class Offers(models.Model):
     gift = models.ForeignKey(Gift, on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
+    per_day = models.IntegerField(default=0)
     type_of_offer = models.CharField(max_length=800, choices=OFFER_CHOICES)
     validto = models.CharField(max_length=800, choices=VALID_CHOICES,default="All")
     offer_condition_value = models.CharField(max_length=500,blank=True)
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(default=0)
     sale_numbers = models.JSONField(null=True, blank=True)
     priority = models.IntegerField(default=0)
 

@@ -580,24 +580,22 @@ def registerCustomer(request):
                         offer.quantity = qty - 1
                         offer.save()
                         gift_assigned = True
-                        break
+                        break """
         
         if not gift_assigned:
-            # Retrieve the weekly offer based on the current date
             weekly_offer = Offers.objects.filter(
-                start_date__lte=today_date, end_date__gte=today_date, type_of_offer="Y27s Offer")
+                start_date__lte=today_date, end_date__gte=today_date, type_of_offer="Monthly Offer")
 
             for offer in weekly_offer:
-                if offer.quantity > 0:
-                    if phone_model == "Y27s(8+256G)_EX":
-                        qty = offer.quantity
-                        customer.gift = offer.gift
-                        customer.save()
-                        offer.quantity = qty - 1
-                        offer.save()
-                        gift_assigned = True
-                        break """
-
+                #use per day value and check if the offer is still available
+                gift = offer.gift
+                todayscount = Customer.objects.filter(date_of_purchase=today_date,gift=gift).count()
+                if (((get_sale_count + 1) % int(offer.offer_condition_value) == 0)) and ((offer.per_day > todayscount)):
+                    customer.gift = offer.gift
+                    customer.save()
+                    gift_assigned = True
+                    break
+        
         if not gift_assigned:
             for offer in Offers.objects.filter(end_date__gte=today_date):
                 c1 = offer.validto[0]
