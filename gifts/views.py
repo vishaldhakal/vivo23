@@ -84,6 +84,14 @@ def deleteAllImeis(request):
     }
     return render(request, "index.html", ctx)
 
+def deleteDublicateImei(request):
+    imeis  = IMEINO.objects.all()
+    for imei in imeis:
+        if IMEINO.objects.filter(imei_no=imei.imei_no).count() > 1:
+            imei.delete()
+
+    return HttpResponse("Deleted")
+
 
 def uploadIMEInos(request):
     if request.method == 'POST':

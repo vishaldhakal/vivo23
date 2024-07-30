@@ -1,7 +1,7 @@
 from django import views
 from django.contrib import admin
 from django.urls import path
-from .views import customer_dashboard,redoImei,getNcellUnUsed, removeDublicateImeis,convallrec,getAllImeis,getNcellUsed,customerlists,getNcell500Used,removerec,getNcell500, download_customers_with_gifts, download_customers_without_gifts, home, index, dashboard, upload_recharge_cards,uploadIMEI, registerCustomer,deleteAllImeis,adminIndex,uploadIMEInos,indexWithError,downloadData,downloadDataToday,downloadDataYesterday,reuseIMEI,exportSummary
+from .views import customer_dashboard,deleteDublicateImei,redoImei,getNcellUnUsed, removeDublicateImeis,convallrec,getAllImeis,getNcellUsed,customerlists,getNcell500Used,removerec,getNcell500, download_customers_with_gifts, download_customers_without_gifts, home, index, dashboard, upload_recharge_cards,uploadIMEI, registerCustomer,deleteAllImeis,adminIndex,uploadIMEInos,indexWithError,downloadData,downloadDataToday,downloadDataYesterday,reuseIMEI,exportSummary
 
 urlpatterns = [
     path('', index,name='index'),
@@ -21,6 +21,7 @@ urlpatterns = [
     path('uploadimei/', uploadIMEInos, name='uploadimei'),
     path('upload/', uploadIMEI,name = 'uploaddd'),
     path('delete-all-imei/', deleteAllImeis,name = 'deleteimeis'),
+    path('delete-dublicate-imei/', deleteDublicateImei,name = 'deleteDublicateImei'),
     path('', indexWithError,name = 'indexWithError'),
     path('output/', registerCustomer,name = 'register_customer'),
     path('export/', downloadData,name = 'down'),
